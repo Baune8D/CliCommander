@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawCli.Tests.Dummy", "RawCl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawCli.Signaler", "RawCli.Signaler\RawCli.Signaler.csproj", "{A0E41A11-D314-45C4-890B-831385450DF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliCommander", "CliCommander\CliCommander.csproj", "{B68BAFDC-05FF-4652-AEBB-116179315A10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliCommander.Tests", "CliCommander.Tests\CliCommander.Tests.csproj", "{FBF0BF2A-919B-4B8F-8E3A-B00287602965}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{A0E41A11-D314-45C4-890B-831385450DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0E41A11-D314-45C4-890B-831385450DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0E41A11-D314-45C4-890B-831385450DF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B68BAFDC-05FF-4652-AEBB-116179315A10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68BAFDC-05FF-4652-AEBB-116179315A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68BAFDC-05FF-4652-AEBB-116179315A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68BAFDC-05FF-4652-AEBB-116179315A10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBF0BF2A-919B-4B8F-8E3A-B00287602965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBF0BF2A-919B-4B8F-8E3A-B00287602965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBF0BF2A-919B-4B8F-8E3A-B00287602965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF0BF2A-919B-4B8F-8E3A-B00287602965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

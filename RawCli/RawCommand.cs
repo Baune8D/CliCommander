@@ -1,42 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.IO;
 using CliWrap;
-using CliWrap.Builders;
 
 namespace RawCli;
 
 /// <inheritdoc cref="Command" />
-public partial class RawCommand
+public partial class RawCommand : CommandBase<RawCommand>
 {
-    /// <inheritdoc cref="Command.TargetFilePath" />
-    public string TargetFilePath { get; }
-
-    /// <inheritdoc cref="Command.Arguments" />
-    public string Arguments { get; }
-
-    /// <inheritdoc cref="Command.WorkingDirPath" />
-    public string WorkingDirPath { get; }
-
-    /// <inheritdoc cref="Command.Credentials" />
-    public Credentials Credentials { get; }
-
-    /// <inheritdoc cref="Command.EnvironmentVariables" />
-    public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
-
-    /// <inheritdoc cref="Command.Validation" />
-    public CommandResultValidation Validation { get; }
-
-    /// <inheritdoc cref="Command.StandardInputPipe" />
-    public PipeSource StandardInputPipe { get; }
-    
     /// <summary>
     /// Standard input redirect value of the underlying process.
     /// </summary>
     public bool RedirectStandardInput { get; }
-  
+
     /// <summary>
     /// Standard output redirect value of the underlying process.
     /// </summary>
@@ -63,18 +40,44 @@ public partial class RawCommand
         Credentials credentials,
         IReadOnlyDictionary<string, string?> environmentVariables,
         CommandResultValidation validation,
+        PipeSource standardInputPipe)
+        : base(
+            targetFilePath,
+            arguments,
+            workingDirPath,
+            credentials,
+            environmentVariables,
+            validation,
+            standardInputPipe)
+    {
+        RedirectStandardInput = true;
+        RedirectStandardOutput = false;
+        RedirectStandardError = false;
+    }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="RawCommand" />.
+    /// </summary>
+    public RawCommand(
+        string targetFilePath,
+        string arguments,
+        string workingDirPath,
+        Credentials credentials,
+        IReadOnlyDictionary<string, string?> environmentVariables,
+        CommandResultValidation validation,
         PipeSource standardInputPipe,
         bool redirectStandardInput,
         bool redirectStandardOutput,
         bool redirectStandardError)
+        : this(
+            targetFilePath,
+            arguments,
+            workingDirPath,
+            credentials,
+            environmentVariables,
+            validation,
+            standardInputPipe)
     {
-        TargetFilePath = targetFilePath;
-        Arguments = arguments;
-        WorkingDirPath = workingDirPath;
-        Credentials = credentials;
-        EnvironmentVariables = environmentVariables;
-        Validation = validation;
-        StandardInputPipe = standardInputPipe;
         RedirectStandardInput = redirectStandardInput;
         RedirectStandardOutput = redirectStandardOutput;
         RedirectStandardError = redirectStandardError;
@@ -83,23 +86,23 @@ public partial class RawCommand
     /// <summary>
     /// Initializes an instance of <see cref="RawCommand" />.
     /// </summary>
-    public RawCommand(string targetFilePath) : this(
-        targetFilePath,
-        string.Empty,
-        Directory.GetCurrentDirectory(),
-        Credentials.Default,
-        new Dictionary<string, string?>(),
-        CommandResultValidation.ZeroExitCode,
-        PipeSource.Null,
-        true,
-        false,
-        false)
-    {
-    }
+    public RawCommand(string targetFilePath)
+        : this(
+            targetFilePath,
+            string.Empty,
+            Directory.GetCurrentDirectory(),
+            Credentials.Default,
+            new Dictionary<string, string?>(),
+            CommandResultValidation.ZeroExitCode,
+            PipeSource.Null,
+            true,
+            false,
+            false
+        ) { }
 
-    /// <inheritdoc cref="Command.WithTargetFile(string)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithTargetFile(string targetFilePath) => new(
+    public override RawCommand WithTargetFile(string targetFilePath) => new(
         targetFilePath,
         Arguments,
         WorkingDirPath,
@@ -112,9 +115,9 @@ public partial class RawCommand
         RedirectStandardError
     );
 
-    /// <inheritdoc cref="Command.WithArguments(string)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithArguments(string arguments) => new(
+    public override RawCommand WithArguments(string arguments) => new(
         TargetFilePath,
         arguments,
         WorkingDirPath,
@@ -127,29 +130,9 @@ public partial class RawCommand
         RedirectStandardError
     );
 
-    /// <inheritdoc cref="Command.WithArguments(IEnumerable&lt;string&gt;, bool)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithArguments(IEnumerable<string> arguments, bool escape) =>
-        WithArguments(args => args.Add(arguments, escape));
-
-    /// <inheritdoc cref="Command.WithArguments(IEnumerable&lt;string&gt;)" />
-    [Pure]
-    public RawCommand WithArguments(IEnumerable<string> arguments) =>
-        WithArguments(arguments, true);
-
-    /// <inheritdoc cref="Command.WithArguments(Action&lt;ArgumentsBuilder&gt;)" />
-    [Pure]
-    public RawCommand WithArguments(Action<ArgumentsBuilder> configure)
-    {
-        var builder = new ArgumentsBuilder();
-        configure(builder);
-
-        return WithArguments(builder.Build());
-    }
-
-    /// <inheritdoc cref="Command.WithWorkingDirectory(string)" />
-    [Pure]
-    public RawCommand WithWorkingDirectory(string workingDirPath) => new(
+    public override RawCommand WithWorkingDirectory(string workingDirPath) => new(
         TargetFilePath,
         Arguments,
         workingDirPath,
@@ -162,9 +145,9 @@ public partial class RawCommand
         RedirectStandardError
     );
 
-    /// <inheritdoc cref="Command.WithCredentials(Credentials)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithCredentials(Credentials credentials) => new(
+    public override RawCommand WithCredentials(Credentials credentials) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -177,19 +160,9 @@ public partial class RawCommand
         RedirectStandardError
     );
 
-    /// <inheritdoc cref="Command.WithCredentials(Action&lt;CredentialsBuilder&gt;)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithCredentials(Action<CredentialsBuilder> configure)
-    {
-        var builder = new CredentialsBuilder();
-        configure(builder);
-
-        return WithCredentials(builder.Build());
-    }
-
-    /// <inheritdoc cref="Command.WithEnvironmentVariables(IReadOnlyDictionary&lt;string, string?&gt;)" />
-    [Pure]
-    public RawCommand WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables) => new(
+    public override RawCommand WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -202,19 +175,9 @@ public partial class RawCommand
         RedirectStandardError
     );
 
-    /// <inheritdoc cref="Command.WithEnvironmentVariables(Action&lt;EnvironmentVariablesBuilder?&gt;)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithEnvironmentVariables(Action<EnvironmentVariablesBuilder> configure)
-    {
-        var builder = new EnvironmentVariablesBuilder();
-        configure(builder);
-
-        return WithEnvironmentVariables(builder.Build());
-    }
-
-    /// <inheritdoc cref="Command.WithValidation(CommandResultValidation)" />
-    [Pure]
-    public RawCommand WithValidation(CommandResultValidation validation) => new(
+    public override RawCommand WithValidation(CommandResultValidation validation) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -227,9 +190,9 @@ public partial class RawCommand
         RedirectStandardError
     );
 
-    /// <inheritdoc cref="Command.WithStandardInputPipe(PipeSource)" />
+    /// <inheritdoc />
     [Pure]
-    public RawCommand WithStandardInputPipe(PipeSource source) => new(
+    public override RawCommand WithStandardInputPipe(PipeSource source) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -241,10 +204,11 @@ public partial class RawCommand
         RedirectStandardOutput,
         RedirectStandardError
     );
-    
+
     /// <summary>
     /// Creates a copy of this command, setting redirect of standard input.
     /// </summary>
+    [Pure]
     public RawCommand WithStandardInputRedirect(bool redirect) => new(
         TargetFilePath,
         Arguments,
@@ -260,6 +224,7 @@ public partial class RawCommand
     /// <summary>
     /// Creates a copy of this command, setting redirect of standard output to null device.
     /// </summary>
+    [Pure]
     public RawCommand WithStandardOutputToNull() => new(
         TargetFilePath,
         Arguments,
@@ -271,10 +236,11 @@ public partial class RawCommand
         RedirectStandardInput,
         true,
         RedirectStandardError);
-    
+
     /// <summary>
     /// Creates a copy of this command, setting redirect of standard error to null device.
     /// </summary>
+    [Pure]
     public RawCommand WithStandardErrorToNull() => new(
         TargetFilePath,
         Arguments,
@@ -290,6 +256,7 @@ public partial class RawCommand
     /// <summary>
     /// Creates a copy of this command, setting redirect of all output to null device.
     /// </summary>
+    [Pure]
     public RawCommand WithHiddenOutput() => new(
         TargetFilePath,
         Arguments,
@@ -301,8 +268,8 @@ public partial class RawCommand
         RedirectStandardInput,
         true,
         true);
-    
+
     /// <inheritdoc />
     [ExcludeFromCodeCoverage]
-    public override string ToString() => $"{TargetFilePath} {Arguments}";
+    public override string ToString() => AsString();
 }
