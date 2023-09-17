@@ -7,11 +7,9 @@
 
   <PropertyGroup>
     <Authors>$(Company)</Authors>
-    <Description>Library for interacting with external command-line interfaces</Description>
+    <Description>Fork of CliWrap with options for outputting native CLI output</Description>
     <PackageTags>shell pipe command line executable interface wrapper standard input output error arguments net core</PackageTags>
-    <PackageProjectUrl>https://github.com/Tyrrrz/CliWrap</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Tyrrrz/CliWrap/blob/master/Changelog.md</PackageReleaseNotes>
-    <PackageIcon>favicon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/Baune8D/CliCommander</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -19,16 +17,6 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <PublicSign>false</PublicSign>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="../favicon.png" Pack="true" PackagePath="" Visible="false" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CliWrap" Version="3.6.4" />
