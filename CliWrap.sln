@@ -16,8 +16,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CliWrap.Tests", "CliWrap.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliWrap.Tests.Dummy", "CliWrap.Tests.Dummy\CliWrap.Tests.Dummy.csproj", "{666CF814-2BA5-44E5-8C44-12A08E3C6D61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliWrap.Benchmarks", "CliWrap.Benchmarks\CliWrap.Benchmarks.csproj", "{22636DB4-8A4D-4540-95AF-59C848459948}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliWrap.Signaler", "CliWrap.Signaler\CliWrap.Signaler.csproj", "{A0E41A11-D314-45C4-890B-831385450DF8}"
 EndProject
 Global
@@ -38,10 +36,6 @@ Global
 		{666CF814-2BA5-44E5-8C44-12A08E3C6D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{666CF814-2BA5-44E5-8C44-12A08E3C6D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{666CF814-2BA5-44E5-8C44-12A08E3C6D61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22636DB4-8A4D-4540-95AF-59C848459948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22636DB4-8A4D-4540-95AF-59C848459948}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22636DB4-8A4D-4540-95AF-59C848459948}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22636DB4-8A4D-4540-95AF-59C848459948}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0E41A11-D314-45C4-890B-831385450DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0E41A11-D314-45C4-890B-831385450DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0E41A11-D314-45C4-890B-831385450DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
