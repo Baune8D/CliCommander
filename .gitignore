@@ -19,3 +19,5 @@ bld/
 
 # Coverage
 *.opencover.xml
+
+.DS_Store
