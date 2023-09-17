@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using CliWrap;
 
 namespace RawCli;
@@ -11,152 +8,31 @@ namespace RawCli;
 public partial class RawCommand
 {
     /// <summary>
-    /// Creates a new command that pipes its standard output to the specified target.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, PipeTarget target) =>
-        source.WithStandardOutputPipe(target);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output to the specified stream.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, Stream target) =>
-        source | PipeTarget.ToStream(target);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output to the specified string builder.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, StringBuilder target) =>
-        source | PipeTarget.ToStringBuilder(target);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output line-by-line to the specified
-    /// asynchronous delegate.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, Func<string, CancellationToken, Task> target) =>
-        source | PipeTarget.ToDelegate(target);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output line-by-line to the specified
-    /// asynchronous delegate.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, Func<string, Task> target) =>
-        source | PipeTarget.ToDelegate(target);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output line-by-line to the specified
-    /// synchronous delegate.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, Action<string> target) =>
-        source | PipeTarget.ToDelegate(target);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output and standard error to the
-    /// specified targets.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, (
-        PipeTarget stdOut,
-        PipeTarget stdErr
-        ) targets) =>
-        source
-            .WithStandardOutputPipe(targets.stdOut)
-            .WithStandardErrorPipe(targets.stdErr);
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output and standard error to the
-    /// specified streams.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, (
-        Stream stdOut,
-        Stream stdErr
-        ) targets) =>
-        source | (PipeTarget.ToStream(targets.stdOut), PipeTarget.ToStream(targets.stdErr));
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output and standard error to the
-    /// specified string builders.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, (
-        StringBuilder stdOut,
-        StringBuilder stdErr
-        ) targets) =>
-        source | (PipeTarget.ToStringBuilder(targets.stdOut), PipeTarget.ToStringBuilder(targets.stdErr));
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output and standard error line-by-line
-    /// to the specified asynchronous delegates.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, (
-        Func<string, CancellationToken, Task> stdOut,
-        Func<string, CancellationToken, Task> stdErr
-        ) targets) =>
-        source | (PipeTarget.ToDelegate(targets.stdOut), PipeTarget.ToDelegate(targets.stdErr));
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output and standard error line-by-line
-    /// to the specified asynchronous delegates.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, (
-        Func<string, Task> stdOut,
-        Func<string, Task> stdErr
-        ) targets) =>
-        source | (PipeTarget.ToDelegate(targets.stdOut), PipeTarget.ToDelegate(targets.stdErr));
-
-    /// <summary>
-    /// Creates a new command that pipes its standard output and standard error line-by-line
-    /// to the specified synchronous delegates.
-    /// Uses <see cref="Console.OutputEncoding" /> for decoding.
-    /// </summary>
-    [Pure]
-    public static Command operator |(RawCommand source, (
-        Action<string> stdOut,
-        Action<string> stdErr
-        ) targets) =>
-        source | (PipeTarget.ToDelegate(targets.stdOut), PipeTarget.ToDelegate(targets.stdErr));
-
-    /// <summary>
     /// Creates a new command that pipes its standard input from the specified source.
     /// </summary>
     [Pure]
-    public static Command operator |(PipeSource source, RawCommand target) =>
+    public static RawCommand operator |(PipeSource source, RawCommand target) =>
         target.WithStandardInputPipe(source);
 
     /// <summary>
     /// Creates a new command that pipes its standard input from the specified stream.
     /// </summary>
     [Pure]
-    public static Command operator |(Stream source, RawCommand target) =>
+    public static RawCommand operator |(Stream source, RawCommand target) =>
         PipeSource.FromStream(source) | target;
 
     /// <summary>
     /// Creates a new command that pipes its standard input from the specified memory buffer.
     /// </summary>
     [Pure]
-    public static Command operator |(ReadOnlyMemory<byte> source, RawCommand target) =>
+    public static RawCommand operator |(ReadOnlyMemory<byte> source, RawCommand target) =>
         PipeSource.FromBytes(source) | target;
 
     /// <summary>
     /// Creates a new command that pipes its standard input from the specified byte array.
     /// </summary>
     [Pure]
-    public static Command operator |(byte[] source, RawCommand target) =>
+    public static RawCommand operator |(byte[] source, RawCommand target) =>
         PipeSource.FromBytes(source) | target;
 
     /// <summary>
@@ -164,7 +40,7 @@ public partial class RawCommand
     /// Uses <see cref="Console.InputEncoding" /> for encoding.
     /// </summary>
     [Pure]
-    public static Command operator |(string source, RawCommand target) =>
+    public static RawCommand operator |(string source, RawCommand target) =>
         PipeSource.FromString(source) | target;
 
     /// <summary>
@@ -172,6 +48,6 @@ public partial class RawCommand
     /// specified command.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, RawCommand target) =>
+    public static RawCommand operator |(Command source, RawCommand target) =>
         PipeSource.FromCommand(source) | target;
 }

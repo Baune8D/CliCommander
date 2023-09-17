@@ -1,15 +1,10 @@
-﻿namespace RawCli;
+﻿using CliWrap;
 
-// The only reason this entry point exists is because it looks cool to have
-// an expression that matches the library name -- RawCli.Wrap().
+namespace RawCli;
 
-/// <summary>
-/// Main entry point for creating new commands.
-/// </summary>
+/// <inheritdoc cref="Cli" />
 public static class RawCli
 {
-    /// <summary>
-    /// Creates a new command that targets the specified command-line executable, batch file, or script.
-    /// </summary>
+    /// <inheritdoc cref="Cli.Wrap" />
     public static RawCommand Wrap(string targetFilePath) => new(targetFilePath);
 }

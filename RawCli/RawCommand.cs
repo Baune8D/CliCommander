@@ -8,40 +8,53 @@ using CliWrap.Builders;
 
 namespace RawCli;
 
-/// <summary>
-/// Instructions for running a process.
-/// </summary>
-public partial class RawCommand : ICommandConfiguration
+/// <inheritdoc cref="Command" />
+public partial class RawCommand
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.TargetFilePath" />
     public string TargetFilePath { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.Arguments" />
     public string Arguments { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.WorkingDirPath" />
     public string WorkingDirPath { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.Credentials" />
     public Credentials Credentials { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.EnvironmentVariables" />
     public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.Validation" />
     public CommandResultValidation Validation { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Command.StandardInputPipe" />
     public PipeSource StandardInputPipe { get; }
-
-    /// <inheritdoc />
-    public PipeTarget StandardOutputPipe { get; }
-
-    /// <inheritdoc />
-    public PipeTarget StandardErrorPipe { get; }
+    
+    /// <summary>
+    /// Standard input redirect value of the underlying process.
+    /// </summary>
+    public bool RedirectStandardInput { get; }
+  
+    /// <summary>
+    /// Standard output redirect value of the underlying process.
+    /// </summary>
+    public bool RedirectStandardOutput { get; }
 
     /// <summary>
-    /// Initializes an instance of <see cref="Command" />.
+    /// Standard error redirect value of the underlying process.
+    /// </summary>
+    public bool RedirectStandardError { get; }
+
+    /// <inheritdoc cref="Command.StandardOutputPipe" />
+    private static PipeTarget StandardOutputPipe => PipeTarget.Null;
+
+    /// <inheritdoc cref="Command.StandardErrorPipe" />
+    private static PipeTarget StandardErrorPipe => PipeTarget.Null;
+
+    /// <summary>
+    /// Initializes an instance of <see cref="RawCommand" />.
     /// </summary>
     public RawCommand(
         string targetFilePath,
@@ -51,8 +64,9 @@ public partial class RawCommand : ICommandConfiguration
         IReadOnlyDictionary<string, string?> environmentVariables,
         CommandResultValidation validation,
         PipeSource standardInputPipe,
-        PipeTarget standardOutputPipe,
-        PipeTarget standardErrorPipe)
+        bool redirectStandardInput,
+        bool redirectStandardOutput,
+        bool redirectStandardError)
     {
         TargetFilePath = targetFilePath;
         Arguments = arguments;
@@ -61,12 +75,13 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables = environmentVariables;
         Validation = validation;
         StandardInputPipe = standardInputPipe;
-        StandardOutputPipe = standardOutputPipe;
-        StandardErrorPipe = standardErrorPipe;
+        RedirectStandardInput = redirectStandardInput;
+        RedirectStandardOutput = redirectStandardOutput;
+        RedirectStandardError = redirectStandardError;
     }
 
     /// <summary>
-    /// Initializes an instance of <see cref="Command" />.
+    /// Initializes an instance of <see cref="RawCommand" />.
     /// </summary>
     public RawCommand(string targetFilePath) : this(
         targetFilePath,
@@ -76,16 +91,15 @@ public partial class RawCommand : ICommandConfiguration
         new Dictionary<string, string?>(),
         CommandResultValidation.ZeroExitCode,
         PipeSource.Null,
-        PipeTarget.Null,
-        PipeTarget.Null)
+        true,
+        false,
+        false)
     {
     }
 
-    /// <summary>
-    /// Creates a copy of this command, setting the target file path to the specified value.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithTargetFile(string)" />
     [Pure]
-    public Command WithTargetFile(string targetFilePath) => new(
+    public RawCommand WithTargetFile(string targetFilePath) => new(
         targetFilePath,
         Arguments,
         WorkingDirPath,
@@ -93,19 +107,14 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
 
-    /// <summary>
-    /// Creates a copy of this command, setting the arguments to the specified value.
-    /// </summary>
-    /// <remarks>
-    /// Avoid using this overload, as it requires the arguments to be escaped manually.
-    /// Formatting errors may lead to unexpected bugs and security vulnerabilities.
-    /// </remarks>
+    /// <inheritdoc cref="Command.WithArguments(string)" />
     [Pure]
-    public Command WithArguments(string arguments) => new(
+    public RawCommand WithArguments(string arguments) => new(
         TargetFilePath,
         arguments,
         WorkingDirPath,
@@ -113,33 +122,24 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
 
-    /// <summary>
-    /// Creates a copy of this command, setting the arguments to the value
-    /// obtained by formatting the specified enumeration.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithArguments(IEnumerable&lt;string&gt;, bool)" />
     [Pure]
-    public Command WithArguments(IEnumerable<string> arguments, bool escape) =>
+    public RawCommand WithArguments(IEnumerable<string> arguments, bool escape) =>
         WithArguments(args => args.Add(arguments, escape));
 
-    /// <summary>
-    /// Creates a copy of this command, setting the arguments to the value
-    /// obtained by formatting the specified enumeration.
-    /// </summary>
-    // TODO: (breaking change) remove in favor of optional parameter
+    /// <inheritdoc cref="Command.WithArguments(IEnumerable&lt;string&gt;)" />
     [Pure]
-    public Command WithArguments(IEnumerable<string> arguments) =>
+    public RawCommand WithArguments(IEnumerable<string> arguments) =>
         WithArguments(arguments, true);
 
-    /// <summary>
-    /// Creates a copy of this command, setting the arguments to the value
-    /// configured by the specified delegate.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithArguments(Action&lt;ArgumentsBuilder&gt;)" />
     [Pure]
-    public Command WithArguments(Action<ArgumentsBuilder> configure)
+    public RawCommand WithArguments(Action<ArgumentsBuilder> configure)
     {
         var builder = new ArgumentsBuilder();
         configure(builder);
@@ -147,11 +147,9 @@ public partial class RawCommand : ICommandConfiguration
         return WithArguments(builder.Build());
     }
 
-    /// <summary>
-    /// Creates a copy of this command, setting the working directory path to the specified value.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithWorkingDirectory(string)" />
     [Pure]
-    public Command WithWorkingDirectory(string workingDirPath) => new(
+    public RawCommand WithWorkingDirectory(string workingDirPath) => new(
         TargetFilePath,
         Arguments,
         workingDirPath,
@@ -159,15 +157,14 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
 
-    /// <summary>
-    /// Creates a copy of this command, setting the user credentials to the specified value.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithCredentials(Credentials)" />
     [Pure]
-    public Command WithCredentials(Credentials credentials) => new(
+    public RawCommand WithCredentials(Credentials credentials) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -175,16 +172,14 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
 
-    /// <summary>
-    /// Creates a copy of this command, setting the user credentials to the value
-    /// configured by the specified delegate.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithCredentials(Action&lt;CredentialsBuilder&gt;)" />
     [Pure]
-    public Command WithCredentials(Action<CredentialsBuilder> configure)
+    public RawCommand WithCredentials(Action<CredentialsBuilder> configure)
     {
         var builder = new CredentialsBuilder();
         configure(builder);
@@ -192,11 +187,9 @@ public partial class RawCommand : ICommandConfiguration
         return WithCredentials(builder.Build());
     }
 
-    /// <summary>
-    /// Creates a copy of this command, setting the environment variables to the specified value.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithEnvironmentVariables(IReadOnlyDictionary&lt;string, string?&gt;)" />
     [Pure]
-    public Command WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables) => new(
+    public RawCommand WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -204,16 +197,14 @@ public partial class RawCommand : ICommandConfiguration
         environmentVariables,
         Validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
 
-    /// <summary>
-    /// Creates a copy of this command, setting the environment variables to the value
-    /// configured by the specified delegate.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithEnvironmentVariables(Action&lt;EnvironmentVariablesBuilder?&gt;)" />
     [Pure]
-    public Command WithEnvironmentVariables(Action<EnvironmentVariablesBuilder> configure)
+    public RawCommand WithEnvironmentVariables(Action<EnvironmentVariablesBuilder> configure)
     {
         var builder = new EnvironmentVariablesBuilder();
         configure(builder);
@@ -221,11 +212,9 @@ public partial class RawCommand : ICommandConfiguration
         return WithEnvironmentVariables(builder.Build());
     }
 
-    /// <summary>
-    /// Creates a copy of this command, setting the validation options to the specified value.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithValidation(CommandResultValidation)" />
     [Pure]
-    public Command WithValidation(CommandResultValidation validation) => new(
+    public RawCommand WithValidation(CommandResultValidation validation) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -233,15 +222,14 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
 
-    /// <summary>
-    /// Creates a copy of this command, setting the standard input pipe to the specified source.
-    /// </summary>
+    /// <inheritdoc cref="Command.WithStandardInputPipe(PipeSource)" />
     [Pure]
-    public Command WithStandardInputPipe(PipeSource source) => new(
+    public RawCommand WithStandardInputPipe(PipeSource source) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -249,15 +237,15 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         source,
-        StandardOutputPipe,
-        StandardErrorPipe
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        RedirectStandardError
     );
-
+    
     /// <summary>
-    /// Creates a copy of this command, setting the standard output pipe to the specified target.
+    /// Creates a copy of this command, setting redirect of standard input.
     /// </summary>
-    [Pure]
-    public Command WithStandardOutputPipe(PipeTarget target) => new(
+    public RawCommand WithStandardInputRedirect(bool redirect) => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -265,15 +253,14 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         StandardInputPipe,
-        target,
-        StandardErrorPipe
-    );
+        redirect,
+        RedirectStandardOutput,
+        RedirectStandardError);
 
     /// <summary>
-    /// Creates a copy of this command, setting the standard error pipe to the specified target.
+    /// Creates a copy of this command, setting redirect of standard output to null device.
     /// </summary>
-    [Pure]
-    public Command WithStandardErrorPipe(PipeTarget target) => new(
+    public RawCommand WithStandardOutputToNull() => new(
         TargetFilePath,
         Arguments,
         WorkingDirPath,
@@ -281,10 +268,40 @@ public partial class RawCommand : ICommandConfiguration
         EnvironmentVariables,
         Validation,
         StandardInputPipe,
-        StandardOutputPipe,
-        target
-    );
+        RedirectStandardInput,
+        true,
+        RedirectStandardError);
+    
+    /// <summary>
+    /// Creates a copy of this command, setting redirect of standard error to null device.
+    /// </summary>
+    public RawCommand WithStandardErrorToNull() => new(
+        TargetFilePath,
+        Arguments,
+        WorkingDirPath,
+        Credentials,
+        EnvironmentVariables,
+        Validation,
+        StandardInputPipe,
+        RedirectStandardInput,
+        RedirectStandardOutput,
+        true);
 
+    /// <summary>
+    /// Creates a copy of this command, setting redirect of all output to null device.
+    /// </summary>
+    public RawCommand WithHiddenOutput() => new(
+        TargetFilePath,
+        Arguments,
+        WorkingDirPath,
+        Credentials,
+        EnvironmentVariables,
+        Validation,
+        StandardInputPipe,
+        RedirectStandardInput,
+        true,
+        true);
+    
     /// <inheritdoc />
     [ExcludeFromCodeCoverage]
     public override string ToString() => $"{TargetFilePath} {Arguments}";

@@ -76,16 +76,20 @@ public partial class RawCommand
             FileName = GetOptimallyQualifiedTargetFilePath(),
             Arguments = Arguments,
             WorkingDirectory = WorkingDirPath,
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
+            RedirectStandardInput = RedirectStandardInput,
+            RedirectStandardOutput = RedirectStandardOutput,
+            RedirectStandardError = RedirectStandardError,
             UseShellExecute = false,
             // This option only works on Windows and is required there to prevent the
             // child processes from attaching to the parent console window, if one exists.
             // We need this in order to be able to send signals to one specific child process,
             // without affecting any others that may also be running in parallel.
             // https://github.com/Tyrrrz/CliWrap/issues/47
-            CreateNoWindow = true
+#if NETFRAMEWORK
+            CreateNoWindow = false
+#else
+            CreateNoWindow = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+#endif
         };
 
         // Set credentials
@@ -206,12 +210,25 @@ public partial class RawCommand
         await using var _2 = forcefulCancellationToken.Register(process.Kill).ToAsyncDisposable();
         await using var _3 = gracefulCancellationToken.Register(process.Interrupt).ToAsyncDisposable();
 
+        var pipingTaskList = new List<Task>();
+
+        if (RedirectStandardInput)
+        {
+            pipingTaskList.Add(PipeStandardInputAsync(process, stdInCts.Token));
+        }
+
+        if (RedirectStandardOutput)
+        {
+            pipingTaskList.Add(PipeStandardOutputAsync(process, forcefulCancellationToken));
+        }
+        
+        if (RedirectStandardError)
+        {
+            pipingTaskList.Add(PipeStandardErrorAsync(process, forcefulCancellationToken));
+        }
+
         // Start piping streams in the background
-        var pipingTask = Task.WhenAll(
-            PipeStandardInputAsync(process, stdInCts.Token),
-            PipeStandardOutputAsync(process, forcefulCancellationToken),
-            PipeStandardErrorAsync(process, forcefulCancellationToken)
-        );
+        var pipingTask = Task.WhenAll(pipingTaskList);
 
         try
         {
@@ -257,7 +274,7 @@ public partial class RawCommand
         if (process.ExitCode != 0 && Validation.IsZeroExitCodeValidationEnabled())
         {
             throw new CommandExecutionException(
-                this,
+                new Command(TargetFilePath, Arguments, WorkingDirPath, Credentials, EnvironmentVariables, Validation, StandardInputPipe, StandardOutputPipe, StandardErrorPipe),
                 process.ExitCode,
                 $"""
                 Command execution failed because the underlying process ({process.Name}#{process.Id}) returned a non-zero exit code ({process.ExitCode}).

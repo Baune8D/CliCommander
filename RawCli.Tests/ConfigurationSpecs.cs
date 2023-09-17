@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using CliWrap;
 using FluentAssertions;
 using Xunit;
 
@@ -22,8 +23,9 @@ public class ConfigurationSpecs
         cmd.EnvironmentVariables.Should().BeEmpty();
         cmd.Validation.Should().Be(CommandResultValidation.ZeroExitCode);
         cmd.StandardInputPipe.Should().Be(PipeSource.Null);
-        cmd.StandardOutputPipe.Should().Be(PipeTarget.Null);
-        cmd.StandardErrorPipe.Should().Be(PipeTarget.Null);
+        cmd.RedirectStandardInput.Should().BeTrue();
+        cmd.RedirectStandardOutput.Should().BeFalse();
+        cmd.RedirectStandardError.Should().BeFalse();
     }
 
     [Fact(Timeout = 15000)]
@@ -223,32 +225,46 @@ public class ConfigurationSpecs
         original.Should().BeEquivalentTo(modified, o => o.Excluding(c => c.StandardInputPipe));
         original.StandardInputPipe.Should().NotBeSameAs(modified.StandardInputPipe);
     }
-
+    
     [Fact(Timeout = 15000)]
-    public void I_can_configure_the_stdout_pipe()
+    public void I_can_configure_the_stdin_redirect()
     {
         // Arrange
-        var original = RawCli.Wrap("foo").WithStandardOutputPipe(PipeTarget.Null);
+        var original = RawCli.Wrap("foo").WithStandardInputRedirect(true);
 
         // Act
-        var modified = original.WithStandardOutputPipe(PipeTarget.ToStream(Stream.Null));
+        var modified = original.WithStandardInputRedirect(false);
 
         // Assert
-        original.Should().BeEquivalentTo(modified, o => o.Excluding(c => c.StandardOutputPipe));
-        original.StandardOutputPipe.Should().NotBeSameAs(modified.StandardOutputPipe);
+        original.Should().BeEquivalentTo(modified, o => o.Excluding(c => c.RedirectStandardInput));
+        original.RedirectStandardInput.Should().NotBe(modified.RedirectStandardInput);
     }
 
     [Fact(Timeout = 15000)]
-    public void I_can_configure_the_stderr_pipe()
+    public void I_can_configure_the_stdout_redirect_to_null()
     {
         // Arrange
-        var original = RawCli.Wrap("foo").WithStandardErrorPipe(PipeTarget.Null);
+        var original = RawCli.Wrap("foo");
 
         // Act
-        var modified = original.WithStandardErrorPipe(PipeTarget.ToStream(Stream.Null));
+        var modified = original.WithStandardOutputToNull();
 
         // Assert
-        original.Should().BeEquivalentTo(modified, o => o.Excluding(c => c.StandardErrorPipe));
-        original.StandardErrorPipe.Should().NotBeSameAs(modified.StandardErrorPipe);
+        original.Should().BeEquivalentTo(modified, o => o.Excluding(c => c.RedirectStandardOutput));
+        original.RedirectStandardOutput.Should().NotBe(modified.RedirectStandardOutput);
+    }
+
+    [Fact(Timeout = 15000)]
+    public void I_can_configure_the_stderr_redirect_to_null()
+    {
+        // Arrange
+        var original = RawCli.Wrap("foo");
+
+        // Act
+        var modified = original.WithStandardErrorToNull();
+
+        // Assert
+        original.Should().BeEquivalentTo(modified, o => o.Excluding(c => c.RedirectStandardError));
+        original.RedirectStandardError.Should().NotBe(modified.RedirectStandardError);
     }
 }

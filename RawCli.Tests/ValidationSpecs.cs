@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CliWrap.Buffered;
+using CliWrap;
 using CliWrap.Exceptions;
 using FluentAssertions;
 using Xunit;
@@ -30,30 +30,10 @@ public class ValidationSpecs
         );
 
         ex.ExitCode.Should().Be(1);
-        ex.Command.Should().BeEquivalentTo(cmd);
-
-        _testOutput.WriteLine(ex.Message);
-    }
-
-    [Fact(Timeout = 15000)]
-    public async Task I_can_execute_a_command_with_buffering_and_get_a_detailed_exception_if_it_returns_a_non_zero_exit_code()
-    {
-        // Arrange
-        var cmd = RawCli.Wrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("exit")
-                .Add("--code").Add(1)
-            );
-
-        // Act & assert
-        var ex = await Assert.ThrowsAsync<CommandExecutionException>(async () =>
-            await cmd.ExecuteBufferedAsync()
-        );
-
-        ex.Message.Should().Contain("Exit code set to 1"); // expected stderr
-        ex.ExitCode.Should().Be(1);
-        ex.Command.Should().BeEquivalentTo(cmd);
+        ex.Command.Should().BeEquivalentTo(cmd, o => o
+            .Excluding(c => c.RedirectStandardInput)
+            .Excluding(c => c.RedirectStandardOutput)
+            .Excluding(c => c.RedirectStandardError));
 
         _testOutput.WriteLine(ex.Message);
     }
