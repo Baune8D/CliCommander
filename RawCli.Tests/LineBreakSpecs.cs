@@ -15,7 +15,7 @@ public class LineBreakSpecs
 
         var stdOutLines = new List<string>();
 
-        var cmd = data | Cli.Wrap("dotnet")
+        var cmd = data | RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -40,7 +40,7 @@ public class LineBreakSpecs
 
         var stdOutLines = new List<string>();
 
-        var cmd = data | Cli.Wrap("dotnet")
+        var cmd = data | RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -65,7 +65,7 @@ public class LineBreakSpecs
 
         var stdOutLines = new List<string>();
 
-        var cmd = data | Cli.Wrap("dotnet")
+        var cmd = data | RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -90,7 +90,7 @@ public class LineBreakSpecs
 
         var stdOutLines = new List<string>();
 
-        var cmd = data | Cli.Wrap("dotnet")
+        var cmd = data | RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")

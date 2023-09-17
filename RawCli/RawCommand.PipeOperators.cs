@@ -4,23 +4,24 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CliWrap;
 
 namespace RawCli;
 
-public partial class Command
+public partial class RawCommand
 {
     /// <summary>
     /// Creates a new command that pipes its standard output to the specified target.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, PipeTarget target) =>
+    public static Command operator |(RawCommand source, PipeTarget target) =>
         source.WithStandardOutputPipe(target);
 
     /// <summary>
     /// Creates a new command that pipes its standard output to the specified stream.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, Stream target) =>
+    public static Command operator |(RawCommand source, Stream target) =>
         source | PipeTarget.ToStream(target);
 
     /// <summary>
@@ -28,7 +29,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, StringBuilder target) =>
+    public static Command operator |(RawCommand source, StringBuilder target) =>
         source | PipeTarget.ToStringBuilder(target);
 
     /// <summary>
@@ -37,7 +38,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, Func<string, CancellationToken, Task> target) =>
+    public static Command operator |(RawCommand source, Func<string, CancellationToken, Task> target) =>
         source | PipeTarget.ToDelegate(target);
 
     /// <summary>
@@ -46,7 +47,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, Func<string, Task> target) =>
+    public static Command operator |(RawCommand source, Func<string, Task> target) =>
         source | PipeTarget.ToDelegate(target);
 
     /// <summary>
@@ -55,7 +56,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, Action<string> target) =>
+    public static Command operator |(RawCommand source, Action<string> target) =>
         source | PipeTarget.ToDelegate(target);
 
     /// <summary>
@@ -63,7 +64,7 @@ public partial class Command
     /// specified targets.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, (
+    public static Command operator |(RawCommand source, (
         PipeTarget stdOut,
         PipeTarget stdErr
         ) targets) =>
@@ -76,7 +77,7 @@ public partial class Command
     /// specified streams.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, (
+    public static Command operator |(RawCommand source, (
         Stream stdOut,
         Stream stdErr
         ) targets) =>
@@ -88,7 +89,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, (
+    public static Command operator |(RawCommand source, (
         StringBuilder stdOut,
         StringBuilder stdErr
         ) targets) =>
@@ -100,7 +101,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, (
+    public static Command operator |(RawCommand source, (
         Func<string, CancellationToken, Task> stdOut,
         Func<string, CancellationToken, Task> stdErr
         ) targets) =>
@@ -112,7 +113,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, (
+    public static Command operator |(RawCommand source, (
         Func<string, Task> stdOut,
         Func<string, Task> stdErr
         ) targets) =>
@@ -124,7 +125,7 @@ public partial class Command
     /// Uses <see cref="Console.OutputEncoding" /> for decoding.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, (
+    public static Command operator |(RawCommand source, (
         Action<string> stdOut,
         Action<string> stdErr
         ) targets) =>
@@ -134,28 +135,28 @@ public partial class Command
     /// Creates a new command that pipes its standard input from the specified source.
     /// </summary>
     [Pure]
-    public static Command operator |(PipeSource source, Command target) =>
+    public static Command operator |(PipeSource source, RawCommand target) =>
         target.WithStandardInputPipe(source);
 
     /// <summary>
     /// Creates a new command that pipes its standard input from the specified stream.
     /// </summary>
     [Pure]
-    public static Command operator |(Stream source, Command target) =>
+    public static Command operator |(Stream source, RawCommand target) =>
         PipeSource.FromStream(source) | target;
 
     /// <summary>
     /// Creates a new command that pipes its standard input from the specified memory buffer.
     /// </summary>
     [Pure]
-    public static Command operator |(ReadOnlyMemory<byte> source, Command target) =>
+    public static Command operator |(ReadOnlyMemory<byte> source, RawCommand target) =>
         PipeSource.FromBytes(source) | target;
 
     /// <summary>
     /// Creates a new command that pipes its standard input from the specified byte array.
     /// </summary>
     [Pure]
-    public static Command operator |(byte[] source, Command target) =>
+    public static Command operator |(byte[] source, RawCommand target) =>
         PipeSource.FromBytes(source) | target;
 
     /// <summary>
@@ -163,7 +164,7 @@ public partial class Command
     /// Uses <see cref="Console.InputEncoding" /> for encoding.
     /// </summary>
     [Pure]
-    public static Command operator |(string source, Command target) =>
+    public static Command operator |(string source, RawCommand target) =>
         PipeSource.FromString(source) | target;
 
     /// <summary>
@@ -171,6 +172,6 @@ public partial class Command
     /// specified command.
     /// </summary>
     [Pure]
-    public static Command operator |(Command source, Command target) =>
+    public static Command operator |(Command source, RawCommand target) =>
         PipeSource.FromCommand(source) | target;
 }

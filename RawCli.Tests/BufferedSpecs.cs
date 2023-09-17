@@ -11,7 +11,7 @@ public class BufferedSpecs
     public async Task I_can_execute_a_command_with_buffering_and_get_the_stdout()
     {
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo")
@@ -31,7 +31,7 @@ public class BufferedSpecs
     public async Task I_can_execute_a_command_with_buffering_and_get_the_stderr()
     {
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo")
@@ -51,7 +51,7 @@ public class BufferedSpecs
     public async Task I_can_execute_a_command_with_buffering_and_get_the_stdout_and_stderr()
     {
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo")
@@ -71,7 +71,7 @@ public class BufferedSpecs
     public async Task I_can_execute_a_command_with_buffering_and_not_hang_on_large_stdout_and_stderr()
     {
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("generate text")

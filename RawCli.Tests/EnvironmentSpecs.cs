@@ -16,7 +16,7 @@ public class EnvironmentSpecs
         // Arrange
         using var dir = TempDir.Create();
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("print cwd")
@@ -41,7 +41,7 @@ public class EnvironmentSpecs
             ["Path"] = "there"
         };
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("print env")
@@ -72,7 +72,7 @@ public class EnvironmentSpecs
         using (TempEnvironmentVariable.Set(variableToOverwrite, "overwrite")) // will be overwritten
         using (TempEnvironmentVariable.Set(variableToUnset, "unset")) // will be unset
         {
-            var cmd = Cli.Wrap("dotnet")
+            var cmd = RawCli.Wrap("dotnet")
                 .WithArguments(a => a
                     .Add(Dummy.Program.FilePath)
                     .Add("print env")

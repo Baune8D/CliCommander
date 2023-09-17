@@ -12,7 +12,7 @@ public class ConfigurationSpecs
     public void I_can_create_a_command_with_the_default_configuration()
     {
         // Act
-        var cmd = Cli.Wrap("foo");
+        var cmd = RawCli.Wrap("foo");
 
         // Assert
         cmd.TargetFilePath.Should().Be("foo");
@@ -30,7 +30,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_target_file()
     {
         // Arrange
-        var original = Cli.Wrap("foo");
+        var original = RawCli.Wrap("foo");
 
         // Act
         var modified = original.WithTargetFile("bar");
@@ -45,7 +45,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_command_line_arguments()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithArguments("xxx");
+        var original = RawCli.Wrap("foo").WithArguments("xxx");
 
         // Act
         var modified = original.WithArguments("qqq ppp");
@@ -60,7 +60,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_command_line_arguments_by_passing_an_array()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithArguments("xxx");
+        var original = RawCli.Wrap("foo").WithArguments("xxx");
 
         // Act
         var modified = original.WithArguments(new[] { "-a", "foo bar" });
@@ -75,7 +75,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_command_line_arguments_using_a_builder()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithArguments("xxx");
+        var original = RawCli.Wrap("foo").WithArguments("xxx");
 
         // Act
         var modified = original.WithArguments(b => b
@@ -97,7 +97,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_working_directory()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithWorkingDirectory("xxx");
+        var original = RawCli.Wrap("foo").WithWorkingDirectory("xxx");
 
         // Act
         var modified = original.WithWorkingDirectory("new");
@@ -112,7 +112,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_user_credentials()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithCredentials(new Credentials("xxx", "xxx", "xxx"));
+        var original = RawCli.Wrap("foo").WithCredentials(new Credentials("xxx", "xxx", "xxx"));
 
         // Act
         var modified = original.WithCredentials(new Credentials("domain", "username", "password", true));
@@ -127,7 +127,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_user_credentials_using_a_builder()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithCredentials(new Credentials("xxx", "xxx", "xxx"));
+        var original = RawCli.Wrap("foo").WithCredentials(new Credentials("xxx", "xxx", "xxx"));
 
         // Act
         var modified = original.WithCredentials(c => c
@@ -147,7 +147,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_environment_variables()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithEnvironmentVariables(e => e.Set("xxx", "xxx"));
+        var original = RawCli.Wrap("foo").WithEnvironmentVariables(e => e.Set("xxx", "xxx"));
 
         // Act
         var modified = original.WithEnvironmentVariables(new Dictionary<string, string?>
@@ -170,7 +170,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_environment_variables_using_a_builder()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithEnvironmentVariables(e => e.Set("xxx", "xxx"));
+        var original = RawCli.Wrap("foo").WithEnvironmentVariables(e => e.Set("xxx", "xxx"));
 
         // Act
         var modified = original.WithEnvironmentVariables(b => b
@@ -199,7 +199,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_result_validation_strategy()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithValidation(CommandResultValidation.ZeroExitCode);
+        var original = RawCli.Wrap("foo").WithValidation(CommandResultValidation.ZeroExitCode);
 
         // Act
         var modified = original.WithValidation(CommandResultValidation.None);
@@ -214,7 +214,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_stdin_pipe()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithStandardInputPipe(PipeSource.Null);
+        var original = RawCli.Wrap("foo").WithStandardInputPipe(PipeSource.Null);
 
         // Act
         var modified = original.WithStandardInputPipe(PipeSource.FromString("new"));
@@ -228,7 +228,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_stdout_pipe()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithStandardOutputPipe(PipeTarget.Null);
+        var original = RawCli.Wrap("foo").WithStandardOutputPipe(PipeTarget.Null);
 
         // Act
         var modified = original.WithStandardOutputPipe(PipeTarget.ToStream(Stream.Null));
@@ -242,7 +242,7 @@ public class ConfigurationSpecs
     public void I_can_configure_the_stderr_pipe()
     {
         // Arrange
-        var original = Cli.Wrap("foo").WithStandardErrorPipe(PipeTarget.Null);
+        var original = RawCli.Wrap("foo").WithStandardErrorPipe(PipeTarget.Null);
 
         // Act
         var modified = original.WithStandardErrorPipe(PipeTarget.ToStream(Stream.Null));

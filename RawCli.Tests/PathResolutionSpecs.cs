@@ -14,7 +14,7 @@ public class PathResolutionSpecs
     public async Task I_can_execute_a_command_on_an_executable_using_its_short_name()
     {
         // Arrange
-        var cmd = Cli.Wrap("dotnet").WithArguments("--version");
+        var cmd = RawCli.Wrap("dotnet").WithArguments("--version");
 
         // Act
         var result = await cmd.ExecuteBufferedAsync();
@@ -41,7 +41,7 @@ public class PathResolutionSpecs
 
         using (TempEnvironmentVariable.ExtendPath(dir.Path))
         {
-            var cmd = Cli.Wrap("test-script");
+            var cmd = RawCli.Wrap("test-script");
 
             // Act
             var result = await cmd.ExecuteBufferedAsync();

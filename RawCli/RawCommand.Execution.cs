@@ -6,13 +6,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using CliWrap;
+using CliWrap.Exceptions;
 using RawCli.Utils.Extensions;
-using RawCli.Exceptions;
 using RawCli.Utils;
 
 namespace RawCli;
 
-public partial class Command
+public partial class RawCommand
 {
     // System.Diagnostics.Process already resolves the full path by itself, but it naively assumes that the file
     // is an executable if the extension is omitted. On Windows, BAT and CMD files may also be valid targets.

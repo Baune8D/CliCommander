@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.IO;
-using RawCli.Builders;
+using CliWrap;
+using CliWrap.Builders;
 
 namespace RawCli;
 
 /// <summary>
 /// Instructions for running a process.
 /// </summary>
-public partial class Command : ICommandConfiguration
+public partial class RawCommand : ICommandConfiguration
 {
     /// <inheritdoc />
     public string TargetFilePath { get; }
@@ -42,7 +43,7 @@ public partial class Command : ICommandConfiguration
     /// <summary>
     /// Initializes an instance of <see cref="Command" />.
     /// </summary>
-    public Command(
+    public RawCommand(
         string targetFilePath,
         string arguments,
         string workingDirPath,
@@ -67,7 +68,7 @@ public partial class Command : ICommandConfiguration
     /// <summary>
     /// Initializes an instance of <see cref="Command" />.
     /// </summary>
-    public Command(string targetFilePath) : this(
+    public RawCommand(string targetFilePath) : this(
         targetFilePath,
         string.Empty,
         Directory.GetCurrentDirectory(),

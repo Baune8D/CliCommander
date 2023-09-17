@@ -22,7 +22,7 @@ public class CancellationSpecs
 
         var stdOutBuffer = new StringBuilder();
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -49,7 +49,7 @@ public class CancellationSpecs
 
         var stdOutBuffer = new StringBuilder();
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -89,7 +89,7 @@ public class CancellationSpecs
             PipeTarget.ToStringBuilder(stdOutBuffer)
         );
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -114,7 +114,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.Cancel();
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -136,7 +136,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.CancelAfter(TimeSpan.FromSeconds(0.2));
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -158,7 +158,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.CancelAfter(TimeSpan.FromSeconds(0.2));
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -185,7 +185,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.Cancel();
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -212,7 +212,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.CancelAfter(TimeSpan.FromSeconds(0.2));
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -239,7 +239,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.CancelAfter(TimeSpan.FromSeconds(0.2));
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -270,7 +270,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.Cancel();
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -296,7 +296,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.CancelAfter(TimeSpan.FromSeconds(0.2));
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")
@@ -322,7 +322,7 @@ public class CancellationSpecs
         using var cts = new CancellationTokenSource();
         cts.CancelAfter(TimeSpan.FromSeconds(0.2));
 
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("sleep")

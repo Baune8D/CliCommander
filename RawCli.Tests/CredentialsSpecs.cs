@@ -20,7 +20,7 @@ public class CredentialsSpecs
         // that the credentials have been passed by getting an exception.
 
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a.Add(Dummy.Program.FilePath))
             .WithCredentials(c => c
                 .SetUserName("user123")
@@ -44,7 +44,7 @@ public class CredentialsSpecs
         // that the credentials have been passed by getting an exception.
 
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a.Add(Dummy.Program.FilePath))
             .WithCredentials(c => c
                 .SetDomain("domain123")
@@ -66,7 +66,7 @@ public class CredentialsSpecs
         );
 
         // Arrange
-        var cmd = Cli.Wrap("dotnet")
+        var cmd = RawCli.Wrap("dotnet")
             .WithArguments(a => a.Add(Dummy.Program.FilePath))
             .WithCredentials(c => c
                 .SetUserName("user123")
