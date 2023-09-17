@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>$(Company)</Authors>
+    <Authors>Baune8D</Authors>
     <Description>Fork of CliWrap with options for outputting native CLI output</Description>
     <PackageTags>shell pipe command line executable interface wrapper standard input output error arguments net core</PackageTags>
     <PackageProjectUrl>https://github.com/Baune8D/CliCommander</PackageProjectUrl>
@@ -16,6 +16,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -52,6 +53,10 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Visible>false</Visible>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
