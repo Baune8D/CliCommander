@@ -29,7 +29,7 @@ public class CredentialsSpecs
             );
 
         // Act & assert
-        await Assert.ThrowsAsync<Win32Exception>(() => cmd.ExecuteAsync());
+        await Assert.ThrowsAsync<Win32Exception>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
     }
 
     [SkippableFact(Timeout = 15000)]
@@ -54,7 +54,7 @@ public class CredentialsSpecs
             );
 
         // Act & assert
-        await Assert.ThrowsAsync<Win32Exception>(() => cmd.ExecuteAsync());
+        await Assert.ThrowsAsync<Win32Exception>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
     }
 
     [SkippableFact(Timeout = 15000)]
@@ -74,6 +74,6 @@ public class CredentialsSpecs
             );
 
         // Act & assert
-        await Assert.ThrowsAsync<NotSupportedException>(() => cmd.ExecuteAsync());
+        await Assert.ThrowsAsync<NotSupportedException>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
     }
 }

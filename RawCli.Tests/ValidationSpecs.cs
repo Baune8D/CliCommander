@@ -26,7 +26,7 @@ public class ValidationSpecs
 
         // Act & assert
         var ex = await Assert.ThrowsAsync<CommandExecutionException>(async () =>
-            await cmd.ExecuteAsync()
+            await cmd.WithStandardOutputToNull().ExecuteAsync()
         );
 
         ex.ExitCode.Should().Be(1);
@@ -51,7 +51,7 @@ public class ValidationSpecs
             .WithValidation(CommandResultValidation.None);
 
         // Act
-        var result = await cmd.ExecuteAsync();
+        var result = await cmd.WithStandardOutputToNull().ExecuteAsync();
 
         // Assert
         result.ExitCode.Should().Be(1);

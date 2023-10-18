@@ -19,7 +19,7 @@ public class PipingSpecs
             );
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<Exception>(async () => await cmd.ExecuteAsync());
+        await Assert.ThrowsAnyAsync<Exception>(async () => await cmd.WithStandardOutputToNull().ExecuteAsync());
     }
 
     [Fact(Timeout = 15000)]
@@ -33,7 +33,7 @@ public class PipingSpecs
             );
 
         // Act
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -47,7 +47,7 @@ public class PipingSpecs
             );
 
         // Act
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -78,7 +78,7 @@ public class PipingSpecs
             );
 
         // Act & assert
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -101,7 +101,7 @@ public class PipingSpecs
             );
 
         // Act & assert
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -123,7 +123,7 @@ public class PipingSpecs
             );
 
         // Act & assert
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -156,6 +156,6 @@ public class PipingSpecs
             );
 
         // Act & assert
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 }

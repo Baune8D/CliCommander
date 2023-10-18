@@ -15,7 +15,7 @@ public class ExecutionSpecs
         var cmd = RawCli.Wrap("dotnet").WithArguments(Dummy.Program.FilePath);
 
         // Act
-        var result = await cmd.ExecuteAsync();
+        var result = await cmd.WithStandardOutputToNull().ExecuteAsync();
 
         // Assert
         result.ExitCode.Should().Be(0);
@@ -29,7 +29,7 @@ public class ExecutionSpecs
         var cmd = RawCli.Wrap("dotnet").WithArguments(Dummy.Program.FilePath);
 
         // Act
-        var task = cmd.ExecuteAsync();
+        var task = cmd.WithStandardOutputToNull().ExecuteAsync();
 
         // Assert
         task.ProcessId.Should().NotBe(0);
@@ -44,7 +44,7 @@ public class ExecutionSpecs
         var cmd = RawCli.Wrap("dotnet").WithArguments(Dummy.Program.FilePath);
 
         // Act & assert
-        await cmd.ExecuteAsync().ConfigureAwait(false);
+        await cmd.WithStandardOutputToNull().ExecuteAsync().ConfigureAwait(false);
     }
 
     [Fact(Timeout = 15000)]
@@ -60,7 +60,7 @@ public class ExecutionSpecs
             );
 
         // Act & assert
-        await cmd.ExecuteAsync();
+        await cmd.WithStandardOutputToNull().ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -73,6 +73,6 @@ public class ExecutionSpecs
 
         // Should throw synchronously
         // https://github.com/Tyrrrz/CliWrap/issues/139
-        Assert.ThrowsAny<Win32Exception>(() => cmd.ExecuteAsync());
+        Assert.ThrowsAny<Win32Exception>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
     }
 }
