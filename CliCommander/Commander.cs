@@ -126,7 +126,7 @@ public class Commander : CommandBase<Commander>
     /// Converts this Commander instance to a RawCli command.
     /// </summary>
     [Pure]
-    public RawCommand ToRawCli()
+    public RawCommand ToRawCli(bool hideOutput = false)
     {
         return new RawCommand(
             TargetFilePath,
@@ -135,7 +135,10 @@ public class Commander : CommandBase<Commander>
             Credentials,
             EnvironmentVariables,
             Validation,
-            StandardInputPipe);
+            StandardInputPipe,
+            true,
+            hideOutput,
+            hideOutput);
     }
 
     /// <summary>
