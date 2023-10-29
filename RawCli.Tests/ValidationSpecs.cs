@@ -17,7 +17,7 @@ public class ValidationSpecs
     public async Task I_can_execute_a_command_and_get_an_error_if_it_returns_a_non_zero_exit_code()
     {
         // Arrange
-        var cmd = RawCli.Wrap("dotnet")
+        var cmd = Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("exit")
@@ -42,7 +42,7 @@ public class ValidationSpecs
     public async Task I_can_execute_a_command_without_validating_the_exit_code()
     {
         // Arrange
-        var cmd = RawCli.Wrap("dotnet")
+        var cmd = Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("exit")

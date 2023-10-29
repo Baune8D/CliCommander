@@ -33,7 +33,7 @@ The point of `Rawcli` is to support the following use case: https://github.com/T
 ### Usage:
 
 ```csharp
-CommandResult result = RawCli.Wrap("docker")
+CommandResult result = Raw.CliWrap("docker")
     .WithArguments(a => a
         .Add("build")
         .Add("--progress")

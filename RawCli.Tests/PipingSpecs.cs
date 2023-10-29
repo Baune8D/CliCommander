@@ -12,7 +12,7 @@ public class PipingSpecs
     public async Task I_can_execute_a_command_and_get_an_error_if_the_pipe_source_throws_an_exception()
     {
         // Arrange
-        var cmd = PipeSource.FromFile("non-existing-file.txt") | RawCli.Wrap("dotnet")
+        var cmd = PipeSource.FromFile("non-existing-file.txt") | Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -26,7 +26,7 @@ public class PipingSpecs
     public async Task I_can_execute_a_command_and_not_hang_if_the_process_expects_stdin_but_none_is_provided()
     {
         // Arrange
-        var cmd = RawCli.Wrap("dotnet")
+        var cmd = Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -40,7 +40,7 @@ public class PipingSpecs
     public async Task I_can_execute_a_command_and_not_hang_if_the_process_expects_stdin_but_empty_data_is_provided()
     {
         // Arrange
-        var cmd = Array.Empty<byte>() | RawCli.Wrap("dotnet")
+        var cmd = Array.Empty<byte>() | Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -70,7 +70,7 @@ public class PipingSpecs
             // ReSharper disable once FunctionNeverReturns
         });
 
-        var cmd = source | RawCli.Wrap("dotnet")
+        var cmd = source | Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -93,7 +93,7 @@ public class PipingSpecs
             await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
         });
 
-        var cmd = source | RawCli.Wrap("dotnet")
+        var cmd = source | Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -115,7 +115,7 @@ public class PipingSpecs
             await Task.Delay(TimeSpan.FromSeconds(20), CancellationToken.None)
         );
 
-        var cmd = source | RawCli.Wrap("dotnet")
+        var cmd = source | Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")
@@ -149,7 +149,7 @@ public class PipingSpecs
             }
         });
 
-        var cmd = source | RawCli.Wrap("dotnet")
+        var cmd = source | Raw.CliWrap("dotnet")
             .WithArguments(a => a
                 .Add(Dummy.Program.FilePath)
                 .Add("echo stdin")

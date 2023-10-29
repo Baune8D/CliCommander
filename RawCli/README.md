@@ -2,7 +2,7 @@
 A fork of [CliWrap](https://github.com/Tyrrrz/CliWrap) that enables outputting native process output at the cost of output redirection.
 
 ```csharp
-CommandResult result = RawCli.Wrap("docker")
+CommandResult result = Raw.CliWrap("docker")
     .WithArguments(a => a
         .Add("build")
         .Add("--progress")
