@@ -7,7 +7,7 @@ using RawCli;
 namespace CliCommander;
 
 /// <summary>
-/// Has the same basic API as a CliWrap Command, but can also be converted to RawCli.
+/// Has the same basic API as a CliWrap Command, but can be converted to both CliWrap and RawCli.
 /// </summary>
 public class Commander : CommandBase<Commander>
 {
@@ -44,7 +44,7 @@ public class Commander : CommandBase<Commander>
     {
         return new Commander(targetFilePath);
     }
-    
+
     /// <inheritdoc />
     [Pure]
     public override Commander WithTargetFile(string targetFilePath) => new(
