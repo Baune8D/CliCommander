@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <Authors>Baune8D</Authors>
-    <Description>Fork of CliWrap with options for outputting native CLI output</Description>
+    <Description>Fork of CliWrap that enables outputting native process output at the cost of output redirection</Description>
     <PackageTags>shell pipe command line executable interface wrapper standard input output error arguments net core</PackageTags>
     <PackageProjectUrl>https://github.com/Baune8D/CliCommander</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
