@@ -23,6 +23,18 @@ CommandResult result = command.ToRawCli()
     .Execute();
 ```
 
+### Helper methods:
+
+CliCommander contains the `.When` helper method for conditional modification of commands:
+```csharp
+public void Execute(bool shouldThrowOnExitCode)
+{
+    await Commander.Wrap("docker")
+        .When(!shouldThrowOnExitCode, c => c.WithValidation(CommandResultValidation.None))
+        ...
+}
+```
+
 # RawCli
 [![NuGet Badge](https://buildstats.info/nuget/RawCli)](https://www.nuget.org/packages/RawCli)
 
