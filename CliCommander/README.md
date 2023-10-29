@@ -2,7 +2,7 @@
 A shared API between `CliWrap` and `RawCli` that enables the creation of commands that can be executed by either library.
 
 ```csharp
-var command = CliCommander.Wrap("docker")
+var command = Commander.Wrap("docker")
     .WithArguments(a => a
         .Add("build")
         .Add("--progress")

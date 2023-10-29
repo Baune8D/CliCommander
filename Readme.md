@@ -8,7 +8,7 @@ A shared API between [CliWrap](https://github.com/Tyrrrz/CliWrap) and [RawCli](#
 ### Usage:
 
 ```csharp
-var command = CliCommander.Wrap("docker")
+var command = Commander.Wrap("docker")
     .WithArguments(a => a
         .Add("build")
         .Add("--progress")

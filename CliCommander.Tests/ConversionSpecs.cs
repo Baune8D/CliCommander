@@ -12,7 +12,7 @@ public class ConversionSpec
     public void I_can_convert_a_command_with_the_default_configuration_to_cliwrap()
     {
         // Act
-        var cmd = CliCommander.Wrap("foo").ToCliWrap();
+        var cmd = Commander.Wrap("foo").ToCliWrap();
 
         // Assert
         cmd.Should().BeOfType<Command>();
@@ -31,7 +31,7 @@ public class ConversionSpec
     public void I_can_convert_a_command_with_the_default_configuration_to_rawcli()
     {
         // Act
-        var cmd = CliCommander.Wrap("foo").ToRawCli();
+        var cmd = Commander.Wrap("foo").ToRawCli();
 
         // Assert
         cmd.Should().BeOfType<RawCommand>();
