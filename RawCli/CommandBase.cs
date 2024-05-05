@@ -122,7 +122,7 @@ public abstract class CommandBase<T> : ICommandBase
     /// <inheritdoc cref="Command.WithWorkingDirectory(string)" />
     public abstract T WithWorkingDirectory(string workingDirPath);
 
-    /// <inheritdoc cref="Command.WithCredentials(Credentials)" />
+    /// <inheritdoc cref="o:Command.WithCredentials(Credentials)" />
     public abstract T WithCredentials(Credentials credentials);
 
     /// <inheritdoc cref="Command.WithCredentials(Action&lt;CredentialsBuilder&gt;)" />
