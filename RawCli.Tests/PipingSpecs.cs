@@ -9,45 +9,36 @@ namespace RawCli.Tests;
 public class PipingSpecs
 {
     [Fact(Timeout = 15000)]
-    public async Task I_can_execute_a_command_and_get_an_error_if_the_pipe_source_throws_an_exception()
+    public async Task I_can_try_to_execute_a_command_and_get_an_error_if_the_pipe_source_throws_an_exception()
     {
         // Arrange
-        var cmd = PipeSource.FromFile("non-existing-file.txt") | Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-            );
+        var cmd =
+            PipeSource.FromFile("non-existing-file.txt")
+            | Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<Exception>(async () => await cmd.WithStandardOutputToNull().ExecuteAsync());
+        await Assert.ThrowsAnyAsync<Exception>(async () => await cmd.ExecuteAsync());
     }
 
     [Fact(Timeout = 15000)]
     public async Task I_can_execute_a_command_and_not_hang_if_the_process_expects_stdin_but_none_is_provided()
     {
         // Arrange
-        var cmd = Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-            );
+        var cmd = Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act
-        await cmd.WithStandardOutputToNull().ExecuteAsync();
+        await cmd.ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
     public async Task I_can_execute_a_command_and_not_hang_if_the_process_expects_stdin_but_empty_data_is_provided()
     {
         // Arrange
-        var cmd = Array.Empty<byte>() | Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-            );
+        var cmd =
+            Array.Empty<byte>() | Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act
-        await cmd.WithStandardOutputToNull().ExecuteAsync();
+        await cmd.ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -58,27 +49,27 @@ public class PipingSpecs
         // Arrange
         var random = new Random(1234567);
 
-        var source = PipeSource.Create(async (destination, cancellationToken) =>
-        {
-            var buffer = new byte[256];
-            while (true)
+        var source = PipeSource.Create(
+            async (destination, cancellationToken) =>
             {
-                random.NextBytes(buffer);
-                await destination.WriteAsync(buffer, cancellationToken);
+                var buffer = new byte[256];
+                while (true)
+                {
+                    random.NextBytes(buffer);
+                    await destination.WriteAsync(buffer, cancellationToken);
+                }
+
+                // ReSharper disable once FunctionNeverReturns
             }
+        );
 
-            // ReSharper disable once FunctionNeverReturns
-        });
-
-        var cmd = source | Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-                .Add("--length").Add(100_000)
-            );
+        var cmd =
+            source
+            | Raw.CliWrap(Dummy.Program.FilePath)
+                .WithArguments(["echo stdin", "--length", "100000"]);
 
         // Act & assert
-        await cmd.WithStandardOutputToNull().ExecuteAsync();
+        await cmd.ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -87,21 +78,20 @@ public class PipingSpecs
         // https://github.com/Tyrrrz/CliWrap/issues/74
 
         // Arrange
-        var source = PipeSource.Create(async (_, cancellationToken) =>
-        {
-            // Not infinite, but long enough
-            await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
-        });
+        var source = PipeSource.Create(
+            async (_, cancellationToken) =>
+            {
+                // Not infinite, but long enough
+                await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+            }
+        );
 
-        var cmd = source | Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-                .Add("--length").Add(0)
-            );
+        var cmd =
+            source
+            | Raw.CliWrap(Dummy.Program.FilePath).WithArguments(["echo stdin", "--length", "0"]);
 
         // Act & assert
-        await cmd.WithStandardOutputToNull().ExecuteAsync();
+        await cmd.ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -110,20 +100,18 @@ public class PipingSpecs
         // https://github.com/Tyrrrz/CliWrap/issues/74
 
         // Arrange
-        var source = PipeSource.Create(async (_, _) =>
-            // Not infinite, but long enough
-            await Task.Delay(TimeSpan.FromSeconds(20), CancellationToken.None)
+        var source = PipeSource.Create(
+            async (_, _) =>
+                // Not infinite, but long enough
+                await Task.Delay(TimeSpan.FromSeconds(20), CancellationToken.None)
         );
 
-        var cmd = source | Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-                .Add("--length").Add(0)
-            );
+        var cmd =
+            source
+            | Raw.CliWrap(Dummy.Program.FilePath).WithArguments(["echo stdin", "--length", "0"]);
 
         // Act & assert
-        await cmd.WithStandardOutputToNull().ExecuteAsync();
+        await cmd.ExecuteAsync();
     }
 
     [Fact(Timeout = 15000)]
@@ -135,27 +123,25 @@ public class PipingSpecs
         var random = new Random(1234567);
         var bytesRemaining = 100_000;
 
-        var source = PipeSource.Create(async (destination, cancellationToken) =>
-        {
-            var buffer = new byte[256];
-            while (bytesRemaining > 0)
+        var source = PipeSource.Create(
+            async (destination, cancellationToken) =>
             {
-                random.NextBytes(buffer);
+                var buffer = new byte[256];
+                while (bytesRemaining > 0)
+                {
+                    random.NextBytes(buffer);
 
-                var count = Math.Min(bytesRemaining, buffer.Length);
-                await destination.WriteAsync(buffer.AsMemory()[..count], cancellationToken);
+                    var count = Math.Min(bytesRemaining, buffer.Length);
+                    await destination.WriteAsync(buffer.AsMemory()[..count], cancellationToken);
 
-                bytesRemaining -= count;
+                    bytesRemaining -= count;
+                }
             }
-        });
+        );
 
-        var cmd = source | Raw.CliWrap("dotnet")
-            .WithArguments(a => a
-                .Add(Dummy.Program.FilePath)
-                .Add("echo stdin")
-            );
+        var cmd = source | Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act & assert
-        await cmd.WithStandardOutputToNull().ExecuteAsync();
+        await cmd.ExecuteAsync();
     }
 }

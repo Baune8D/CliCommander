@@ -40,7 +40,8 @@ public partial class RawCommand : CommandBase<RawCommand>
         Credentials credentials,
         IReadOnlyDictionary<string, string?> environmentVariables,
         CommandResultValidation validation,
-        PipeSource standardInputPipe)
+        PipeSource standardInputPipe
+    )
         : base(
             targetFilePath,
             arguments,
@@ -48,7 +49,8 @@ public partial class RawCommand : CommandBase<RawCommand>
             credentials,
             environmentVariables,
             validation,
-            standardInputPipe)
+            standardInputPipe
+        )
     {
         RedirectStandardInput = true;
         RedirectStandardOutput = false;
@@ -68,7 +70,8 @@ public partial class RawCommand : CommandBase<RawCommand>
         PipeSource standardInputPipe,
         bool redirectStandardInput,
         bool redirectStandardOutput,
-        bool redirectStandardError)
+        bool redirectStandardError
+    )
         : this(
             targetFilePath,
             arguments,
@@ -76,7 +79,8 @@ public partial class RawCommand : CommandBase<RawCommand>
             credentials,
             environmentVariables,
             validation,
-            standardInputPipe)
+            standardInputPipe
+        )
     {
         RedirectStandardInput = redirectStandardInput;
         RedirectStandardOutput = redirectStandardOutput;
@@ -102,172 +106,189 @@ public partial class RawCommand : CommandBase<RawCommand>
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithTargetFile(string targetFilePath) => new(
-        targetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithTargetFile(string targetFilePath) =>
+        new(
+            targetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithArguments(string arguments) => new(
-        TargetFilePath,
-        arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithArguments(string arguments) =>
+        new(
+            TargetFilePath,
+            arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithWorkingDirectory(string workingDirPath) => new(
-        TargetFilePath,
-        Arguments,
-        workingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithWorkingDirectory(string workingDirPath) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            workingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithCredentials(Credentials credentials) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithCredentials(Credentials credentials) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        environmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithEnvironmentVariables(
+        IReadOnlyDictionary<string, string?> environmentVariables
+    ) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            environmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithValidation(CommandResultValidation validation) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithValidation(CommandResultValidation validation) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override RawCommand WithStandardInputPipe(PipeSource source) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        source,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        RedirectStandardError
-    );
+    public override RawCommand WithStandardInputPipe(PipeSource source) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            source,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <summary>
     /// Creates a copy of this command, setting redirect of standard input.
     /// </summary>
     [Pure]
-    public RawCommand WithStandardInputRedirect(bool redirect) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        redirect,
-        RedirectStandardOutput,
-        RedirectStandardError);
+    public RawCommand WithStandardInputRedirect(bool redirect) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            redirect,
+            RedirectStandardOutput,
+            RedirectStandardError
+        );
 
     /// <summary>
     /// Creates a copy of this command, setting redirect of standard output to null device.
     /// </summary>
     [Pure]
-    public RawCommand WithStandardOutputToNull() => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        true,
-        RedirectStandardError);
+    public RawCommand WithStandardOutputToNull() =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            true,
+            RedirectStandardError
+        );
 
     /// <summary>
     /// Creates a copy of this command, setting redirect of standard error to null device.
     /// </summary>
     [Pure]
-    public RawCommand WithStandardErrorToNull() => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        RedirectStandardOutput,
-        true);
+    public RawCommand WithStandardErrorToNull() =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            RedirectStandardOutput,
+            true
+        );
 
     /// <summary>
     /// Creates a copy of this command, setting redirect of all output to null device.
     /// </summary>
     [Pure]
-    public RawCommand WithHiddenOutput() => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe,
-        RedirectStandardInput,
-        true,
-        true);
+    public RawCommand WithHiddenOutput() =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe,
+            RedirectStandardInput,
+            true,
+            true
+        );
 
     /// <inheritdoc />
     [ExcludeFromCodeCoverage]

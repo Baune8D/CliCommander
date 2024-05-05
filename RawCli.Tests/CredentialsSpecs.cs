@@ -20,16 +20,13 @@ public class CredentialsSpecs
         // that the credentials have been passed by getting an exception.
 
         // Arrange
-        var cmd = Raw.CliWrap("dotnet")
-            .WithArguments(a => a.Add(Dummy.Program.FilePath))
-            .WithCredentials(c => c
-                .SetUserName("user123")
-                .SetPassword("pass123")
-                .LoadUserProfile()
+        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+            .WithCredentials(c =>
+                c.SetUserName("user123").SetPassword("pass123").LoadUserProfile()
             );
 
         // Act & assert
-        await Assert.ThrowsAsync<Win32Exception>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
+        await Assert.ThrowsAsync<Win32Exception>(() => cmd.ExecuteAsync());
     }
 
     [SkippableFact(Timeout = 15000)]
@@ -44,21 +41,20 @@ public class CredentialsSpecs
         // that the credentials have been passed by getting an exception.
 
         // Arrange
-        var cmd = Raw.CliWrap("dotnet")
-            .WithArguments(a => a.Add(Dummy.Program.FilePath))
-            .WithCredentials(c => c
-                .SetDomain("domain123")
-                .SetUserName("user123")
-                .SetPassword("pass123")
-                .LoadUserProfile()
+        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+            .WithCredentials(c =>
+                c.SetDomain("domain123")
+                    .SetUserName("user123")
+                    .SetPassword("pass123")
+                    .LoadUserProfile()
             );
 
         // Act & assert
-        await Assert.ThrowsAsync<Win32Exception>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
+        await Assert.ThrowsAsync<Win32Exception>(() => cmd.ExecuteAsync());
     }
 
     [SkippableFact(Timeout = 15000)]
-    public async Task I_cannot_execute_a_command_as_a_different_user_on_a_system_that_does_not_support_it()
+    public async Task I_can_try_to_execute_a_command_as_a_different_user_and_get_an_error_if_the_operating_system_does_not_support_it()
     {
         Skip.If(
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows),
@@ -66,14 +62,10 @@ public class CredentialsSpecs
         );
 
         // Arrange
-        var cmd = Raw.CliWrap("dotnet")
-            .WithArguments(a => a.Add(Dummy.Program.FilePath))
-            .WithCredentials(c => c
-                .SetUserName("user123")
-                .SetPassword("pass123")
-            );
+        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+            .WithCredentials(c => c.SetUserName("user123").SetPassword("pass123"));
 
         // Act & assert
-        await Assert.ThrowsAsync<NotSupportedException>(() => cmd.WithStandardOutputToNull().ExecuteAsync());
+        await Assert.ThrowsAsync<NotSupportedException>(() => cmd.ExecuteAsync());
     }
 }

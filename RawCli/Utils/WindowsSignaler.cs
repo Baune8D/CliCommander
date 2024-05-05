@@ -7,24 +7,19 @@ using RawCli.Utils.Extensions;
 
 namespace RawCli.Utils;
 
-internal partial class WindowsSignaler : IDisposable
+internal partial class WindowsSignaler(string filePath) : IDisposable
 {
-    private readonly string _filePath;
-
-    public WindowsSignaler(string filePath) =>
-        _filePath = filePath;
-
     public bool TrySend(int processId, int signalId)
     {
         using var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = _filePath,
+                FileName = filePath,
                 Arguments =
-                    processId.ToString(CultureInfo.InvariantCulture) +
-                    ' ' +
-                    signalId.ToString(CultureInfo.InvariantCulture),
+                    processId.ToString(CultureInfo.InvariantCulture)
+                    + ' '
+                    + signalId.ToString(CultureInfo.InvariantCulture),
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 Environment =
@@ -50,7 +45,7 @@ internal partial class WindowsSignaler : IDisposable
     {
         try
         {
-            File.Delete(_filePath);
+            File.Delete(filePath);
         }
         catch
         {

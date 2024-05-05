@@ -61,7 +61,7 @@ public abstract class CommandBase<T> : ICommandBase
         Validation = validation;
         StandardInputPipe = standardInputPipe;
     }
-    
+
     /// <summary>
     /// Initializes an instance of <see cref="CommandBase{T}" />.
     /// </summary>
@@ -99,7 +99,7 @@ public abstract class CommandBase<T> : ICommandBase
 
     /// <inheritdoc cref="Command.WithTargetFile(string)" />
     public abstract T WithTargetFile(string targetFilePath);
-    
+
     /// <inheritdoc cref="Command.WithArguments(string)" />
     public abstract T WithArguments(string arguments);
 
@@ -108,8 +108,7 @@ public abstract class CommandBase<T> : ICommandBase
         WithArguments(args => args.Add(arguments, escape));
 
     /// <inheritdoc cref="Command.WithArguments(IEnumerable&lt;string&gt;)" />
-    public T WithArguments(IEnumerable<string> arguments) =>
-        WithArguments(arguments, true);
+    public T WithArguments(IEnumerable<string> arguments) => WithArguments(arguments, true);
 
     /// <inheritdoc cref="Command.WithArguments(Action&lt;ArgumentsBuilder&gt;)" />
     public T WithArguments(Action<ArgumentsBuilder> configure)
@@ -134,9 +133,11 @@ public abstract class CommandBase<T> : ICommandBase
 
         return WithCredentials(builder.Build());
     }
-    
+
     /// <inheritdoc cref="Command.WithEnvironmentVariables(IReadOnlyDictionary&lt;string, string?&gt;)" />
-    public abstract T WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables);
+    public abstract T WithEnvironmentVariables(
+        IReadOnlyDictionary<string, string?> environmentVariables
+    );
 
     /// <inheritdoc cref="Command.WithEnvironmentVariables(Action&lt;EnvironmentVariablesBuilder?&gt;)" />
     public T WithEnvironmentVariables(Action<EnvironmentVariablesBuilder> configure)
