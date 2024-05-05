@@ -28,7 +28,7 @@ environment:
       appveyor_build_worker_image: Visual Studio 2022
     - job_name: MacOS Tests
       job_group: Tests
-      appveyor_build_worker_image: MacOs
+      appveyor_build_worker_image: macos-sonoma
     - job_name: Ubuntu Tests + Push
       job_depends_on: Tests
-      appveyor_build_worker_image: Ubuntu
+      appveyor_build_worker_image: Ubuntu2004
