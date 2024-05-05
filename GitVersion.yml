@@ -1,9 +1,8 @@
 next-version: 3.6.6
 branches:
   main:
-    mode: ContinuousDeployment
-    tag: beta
+    label: beta
   develop:
-    increment: patch
+    increment: Patch
 ignore:
   sha: []
