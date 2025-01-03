@@ -5,15 +5,6 @@ build_script:
 for:
   -
     matrix:
-      except:
-        - job_name: Windows Tests
-    install:
-      - sh: |
-          wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
-          chmod +x /tmp/dotnet-install.sh
-          /tmp/dotnet-install.sh -Version 9.0.101
-  -
-    matrix:
       only:
         - job_name: Ubuntu Tests + Push
     build_script:
@@ -40,4 +31,3 @@ environment:
     - job_name: Ubuntu Tests + Push
       job_depends_on: Tests
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-      DOTNET_ROOT: /home/appveyor/.dotnet
