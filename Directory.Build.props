@@ -16,4 +16,11 @@
     <Nullable>annotations</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageTags>yshell pipe command line executable interface wrapper standard input output error arguments net core</PackageTags>
+    <PackageProjectUrl>https://github.com/Baune8D/CliCommander</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/Baune8D/CliCommander/releases</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
 </Project>

@@ -10,10 +10,6 @@
   <PropertyGroup>
     <Authors>Baune8D</Authors>
     <Description>Shared API that can convert to both CliWrap and RawCli</Description>
-    <PackageTags>shell pipe command line executable interface wrapper standard input output error arguments net core</PackageTags>
-    <PackageProjectUrl>https://github.com/Baune8D/CliCommander</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
