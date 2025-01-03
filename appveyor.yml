@@ -11,7 +11,7 @@ for:
       only:
         - job_name: MacOS Tests
     install:
-      - cmd: |
+      - sh: |
           wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
           chmod +x /tmp/dotnet-install.sh
           /tmp/dotnet-install.sh -Version 9.0.101 -InstallDir /usr/share/dotnet
@@ -20,7 +20,7 @@ for:
       only:
         - job_name: Ubuntu Tests + Push
     install:
-      - cmd: |
+      - sh: |
           wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
           chmod +x /tmp/dotnet-install.sh
           /tmp/dotnet-install.sh -Version 9.0.101 -InstallDir /usr/share/dotnet
