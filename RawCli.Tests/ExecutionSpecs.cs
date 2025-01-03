@@ -12,7 +12,7 @@ public class ExecutionSpecs
     public async Task I_can_execute_a_command_and_get_the_exit_code_and_execution_time()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath);
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath);
 
         // Act
         var result = await cmd.ExecuteAsync();
@@ -27,7 +27,7 @@ public class ExecutionSpecs
     public async Task I_can_execute_a_command_and_get_the_associated_process_ID()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath);
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath);
 
         // Act
         var task = cmd.ExecuteAsync();
@@ -42,7 +42,7 @@ public class ExecutionSpecs
     public async Task I_can_execute_a_command_with_a_configured_awaiter()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath);
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath);
 
         // Act & assert
         await cmd.ExecuteAsync().ConfigureAwait(false);
@@ -52,7 +52,7 @@ public class ExecutionSpecs
     public async Task I_can_execute_a_command_and_not_hang_on_large_stdout_and_stderr()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
             .WithArguments(["generate binary", "--target", "all", "--length", "100000"]);
 
         // Act & assert
@@ -63,7 +63,7 @@ public class ExecutionSpecs
     public void I_can_try_to_execute_a_command_and_get_an_error_if_the_target_file_does_not_exist()
     {
         // Arrange
-        var cmd = Raw.CliWrap("I_do_not_exist.exe");
+        var cmd = Raw.Cli.Wrap("I_do_not_exist.exe");
 
         // Act & assert
 

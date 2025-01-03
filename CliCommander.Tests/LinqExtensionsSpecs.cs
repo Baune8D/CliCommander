@@ -26,7 +26,7 @@ public class LinqExtensionsSpecs
     public void I_can_conditionally_convert_rawcommand(bool shouldThrowOnExitCode, CommandResultValidation expectedValidation)
     {
         // Act
-        var cmd = Raw.CliWrap("foo")
+        var cmd = Raw.Cli.Wrap("foo")
             .When(!shouldThrowOnExitCode, c => c.WithValidation(CommandResultValidation.None));
 
         // Assert

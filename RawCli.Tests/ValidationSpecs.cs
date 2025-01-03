@@ -13,7 +13,7 @@ public class ValidationSpecs(ITestOutputHelper testOutput)
     public async Task I_can_try_to_execute_a_command_and_get_an_error_if_it_returns_a_non_zero_exit_code()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath).WithArguments(["exit", "1"]);
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments(["exit", "1"]);
 
         // Act & assert
         var ex = await Assert.ThrowsAsync<CommandExecutionException>(
@@ -37,7 +37,7 @@ public class ValidationSpecs(ITestOutputHelper testOutput)
     public async Task I_can_execute_a_command_without_validating_the_exit_code()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
             .WithArguments(["exit", "1"])
             .WithValidation(CommandResultValidation.None);
 

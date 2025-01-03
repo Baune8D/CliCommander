@@ -14,7 +14,7 @@ public class PipingSpecs
         // Arrange
         var cmd =
             PipeSource.FromFile("non-existing-file.txt")
-            | Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
+            | Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act & assert
         await Assert.ThrowsAnyAsync<Exception>(async () => await cmd.ExecuteAsync());
@@ -24,7 +24,7 @@ public class PipingSpecs
     public async Task I_can_execute_a_command_and_not_hang_if_the_process_expects_stdin_but_none_is_provided()
     {
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act
         await cmd.ExecuteAsync();
@@ -35,7 +35,7 @@ public class PipingSpecs
     {
         // Arrange
         var cmd =
-            Array.Empty<byte>() | Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
+            Array.Empty<byte>() | Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act
         await cmd.ExecuteAsync();
@@ -65,7 +65,7 @@ public class PipingSpecs
 
         var cmd =
             source
-            | Raw.CliWrap(Dummy.Program.FilePath)
+            | Raw.Cli.Wrap(Dummy.Program.FilePath)
                 .WithArguments(["echo stdin", "--length", "100000"]);
 
         // Act & assert
@@ -88,7 +88,7 @@ public class PipingSpecs
 
         var cmd =
             source
-            | Raw.CliWrap(Dummy.Program.FilePath).WithArguments(["echo stdin", "--length", "0"]);
+            | Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments(["echo stdin", "--length", "0"]);
 
         // Act & assert
         await cmd.ExecuteAsync();
@@ -108,7 +108,7 @@ public class PipingSpecs
 
         var cmd =
             source
-            | Raw.CliWrap(Dummy.Program.FilePath).WithArguments(["echo stdin", "--length", "0"]);
+            | Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments(["echo stdin", "--length", "0"]);
 
         // Act & assert
         await cmd.ExecuteAsync();
@@ -139,7 +139,7 @@ public class PipingSpecs
             }
         );
 
-        var cmd = source | Raw.CliWrap(Dummy.Program.FilePath).WithArguments("echo stdin");
+        var cmd = source | Raw.Cli.Wrap(Dummy.Program.FilePath).WithArguments("echo stdin");
 
         // Act & assert
         await cmd.ExecuteAsync();

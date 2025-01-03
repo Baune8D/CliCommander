@@ -20,7 +20,7 @@ public class CredentialsSpecs
         // that the credentials have been passed by getting an exception.
 
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
             .WithCredentials(c =>
                 c.SetUserName("user123").SetPassword("pass123").LoadUserProfile()
             );
@@ -41,7 +41,7 @@ public class CredentialsSpecs
         // that the credentials have been passed by getting an exception.
 
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
             .WithCredentials(c =>
                 c.SetDomain("domain123")
                     .SetUserName("user123")
@@ -62,7 +62,7 @@ public class CredentialsSpecs
         );
 
         // Arrange
-        var cmd = Raw.CliWrap(Dummy.Program.FilePath)
+        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
             .WithCredentials(c => c.SetUserName("user123").SetPassword("pass123"));
 
         // Act & assert
