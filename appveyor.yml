@@ -33,4 +33,4 @@ environment:
       appveyor_build_worker_image: macos-sonoma
     - job_name: Ubuntu Tests + Push
       job_depends_on: Tests
-      appveyor_build_worker_image: Ubuntu2004
+      appveyor_build_worker_image: Ubuntu2204
