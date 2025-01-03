@@ -24,7 +24,9 @@ public partial class RawCommand
         // Currently, we only need this workaround for script files on Windows, so short-circuit
         // if we are on a different platform.
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
             return TargetFilePath;
+        }
 
         // Don't do anything for fully qualified paths or paths that already have an extension specified.
         // System.Diagnostics.Process knows how to handle those without our help.
@@ -35,7 +37,9 @@ public partial class RawCommand
             Path.IsPathRooted(TargetFilePath)
             || !string.IsNullOrWhiteSpace(Path.GetExtension(TargetFilePath))
         )
+        {
             return TargetFilePath;
+        }
 
         static IEnumerable<string> GetProbeDirectoryPaths()
         {
@@ -97,6 +101,8 @@ public partial class RawCommand
         // Set credentials
         try
         {
+            // Disable CA1416 because we're handling an exception that is thrown by the property setters
+#pragma warning disable CA1416
             if (Credentials.Domain is not null)
                 startInfo.Domain = Credentials.Domain;
 
@@ -108,6 +114,7 @@ public partial class RawCommand
 
             if (Credentials.LoadUserProfile)
                 startInfo.LoadUserProfile = Credentials.LoadUserProfile;
+#pragma warning restore CA1416
         }
         catch (NotSupportedException ex)
         {

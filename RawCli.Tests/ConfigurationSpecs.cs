@@ -8,7 +8,7 @@ namespace RawCli.Tests;
 
 public class ConfigurationSpecs
 {
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_create_a_command_with_the_default_configuration()
     {
         // Act
@@ -24,7 +24,7 @@ public class ConfigurationSpecs
         cmd.StandardInputPipe.Should().Be(PipeSource.Null);
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_target_file()
     {
         // Arrange
@@ -39,7 +39,7 @@ public class ConfigurationSpecs
         modified.TargetFilePath.Should().Be("bar");
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_command_line_arguments()
     {
         // Arrange
@@ -54,7 +54,7 @@ public class ConfigurationSpecs
         modified.Arguments.Should().Be("qqq ppp");
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_command_line_arguments_by_passing_an_array()
     {
         // Arrange
@@ -69,7 +69,7 @@ public class ConfigurationSpecs
         modified.Arguments.Should().Be("-a \"foo bar\"");
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_command_line_arguments_using_a_builder()
     {
         // Arrange
@@ -93,7 +93,7 @@ public class ConfigurationSpecs
             .Be("-a \"foo bar\" \"\\\"foo\\\\bar\\\"\" 3.14 foo bar -5 89.13");
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_working_directory()
     {
         // Arrange
@@ -108,7 +108,7 @@ public class ConfigurationSpecs
         modified.WorkingDirPath.Should().Be("new");
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_user_credentials()
     {
         // Arrange
@@ -127,7 +127,7 @@ public class ConfigurationSpecs
             .BeEquivalentTo(new Credentials("domain", "username", "password", true));
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_user_credentials_using_a_builder()
     {
         // Arrange
@@ -146,7 +146,7 @@ public class ConfigurationSpecs
             .BeEquivalentTo(new Credentials("domain", "username", "password", true));
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_environment_variables()
     {
         // Arrange
@@ -167,7 +167,7 @@ public class ConfigurationSpecs
             );
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_environment_variables_using_a_builder()
     {
         // Arrange
@@ -191,12 +191,12 @@ public class ConfigurationSpecs
                     ["name"] = "value",
                     ["key"] = "door",
                     ["zzz"] = "yyy",
-                    ["aaa"] = "bbb"
+                    ["aaa"] = "bbb",
                 }
             );
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_result_validation_strategy()
     {
         // Arrange
@@ -211,7 +211,7 @@ public class ConfigurationSpecs
         modified.Validation.Should().Be(CommandResultValidation.None);
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_stdin_pipe()
     {
         // Arrange
@@ -225,7 +225,7 @@ public class ConfigurationSpecs
         original.StandardInputPipe.Should().NotBeSameAs(modified.StandardInputPipe);
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_stdin_redirect()
     {
         // Arrange
@@ -239,7 +239,7 @@ public class ConfigurationSpecs
         original.RedirectStandardInput.Should().NotBe(modified.RedirectStandardInput);
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_stdout_redirect_to_null()
     {
         // Arrange
@@ -255,7 +255,7 @@ public class ConfigurationSpecs
         original.RedirectStandardOutput.Should().NotBe(modified.RedirectStandardOutput);
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_configure_the_stderr_redirect_to_null()
     {
         // Arrange
