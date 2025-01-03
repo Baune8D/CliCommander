@@ -37,7 +37,8 @@ public class ValidationSpecs(ITestOutputHelper testOutput)
     public async Task I_can_execute_a_command_without_validating_the_exit_code()
     {
         // Arrange
-        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
+        var cmd = Raw
+            .Cli.Wrap(Dummy.Program.FilePath)
             .WithArguments(["exit", "1"])
             .WithValidation(CommandResultValidation.None);
 

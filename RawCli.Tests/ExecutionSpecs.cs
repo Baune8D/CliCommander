@@ -52,7 +52,8 @@ public class ExecutionSpecs
     public async Task I_can_execute_a_command_and_not_hang_on_large_stdout_and_stderr()
     {
         // Arrange
-        var cmd = Raw.Cli.Wrap(Dummy.Program.FilePath)
+        var cmd = Raw
+            .Cli.Wrap(Dummy.Program.FilePath)
             .WithArguments(["generate binary", "--target", "all", "--length", "100000"]);
 
         // Act & assert

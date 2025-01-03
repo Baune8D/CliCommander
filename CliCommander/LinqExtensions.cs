@@ -12,7 +12,11 @@ public static class LinqExtensions
     /// <summary>
     /// Conditional modification of command object.
     /// </summary>
-    public static Commander When(this Commander obj, bool condition, Func<Commander, Commander> action)
+    public static Commander When(
+        this Commander obj,
+        bool condition,
+        Func<Commander, Commander> action
+    )
     {
         return condition ? action.Invoke(obj) : obj;
     }
@@ -20,7 +24,11 @@ public static class LinqExtensions
     /// <summary>
     /// Conditional modification of command object.
     /// </summary>
-    public static RawCommand When(this RawCommand obj, bool condition, Func<RawCommand, RawCommand> action)
+    public static RawCommand When(
+        this RawCommand obj,
+        bool condition,
+        Func<RawCommand, RawCommand> action
+    )
     {
         return condition ? action.Invoke(obj) : obj;
     }

@@ -10,10 +10,14 @@ public class LinqExtensionsSpecs
     [Theory]
     [InlineData(true, CommandResultValidation.ZeroExitCode)]
     [InlineData(false, CommandResultValidation.None)]
-    public void I_can_conditionally_convert_commander(bool shouldThrowOnExitCode, CommandResultValidation expectedValidation)
+    public void I_can_conditionally_convert_commander(
+        bool shouldThrowOnExitCode,
+        CommandResultValidation expectedValidation
+    )
     {
         // Act
-        var cmd = Commander.Wrap("foo")
+        var cmd = Commander
+            .Wrap("foo")
             .When(!shouldThrowOnExitCode, c => c.WithValidation(CommandResultValidation.None));
 
         // Assert
@@ -23,10 +27,14 @@ public class LinqExtensionsSpecs
     [Theory]
     [InlineData(true, CommandResultValidation.ZeroExitCode)]
     [InlineData(false, CommandResultValidation.None)]
-    public void I_can_conditionally_convert_rawcommand(bool shouldThrowOnExitCode, CommandResultValidation expectedValidation)
+    public void I_can_conditionally_convert_rawcommand(
+        bool shouldThrowOnExitCode,
+        CommandResultValidation expectedValidation
+    )
     {
         // Act
-        var cmd = Raw.Cli.Wrap("foo")
+        var cmd = Raw
+            .Cli.Wrap("foo")
             .When(!shouldThrowOnExitCode, c => c.WithValidation(CommandResultValidation.None));
 
         // Assert
@@ -36,7 +44,10 @@ public class LinqExtensionsSpecs
     [Theory]
     [InlineData(true, CommandResultValidation.ZeroExitCode)]
     [InlineData(false, CommandResultValidation.None)]
-    public void I_can_conditionally_convert_command(bool shouldThrowOnExitCode, CommandResultValidation expectedValidation)
+    public void I_can_conditionally_convert_command(
+        bool shouldThrowOnExitCode,
+        CommandResultValidation expectedValidation
+    )
     {
         // Act
         var cmd = Cli.Wrap("foo")

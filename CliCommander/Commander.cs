@@ -21,7 +21,8 @@ public class Commander : CommandBase<Commander>
         Credentials credentials,
         IReadOnlyDictionary<string, string?> environmentVariables,
         CommandResultValidation validation,
-        PipeSource standardInputPipe)
+        PipeSource standardInputPipe
+    )
         : base(
             targetFilePath,
             arguments,
@@ -36,8 +37,7 @@ public class Commander : CommandBase<Commander>
     /// Initializes an instance of <see cref="CliCommander" />.
     /// </summary>
     public Commander(string targetFilePath)
-        : base(targetFilePath)
-    { }
+        : base(targetFilePath) { }
 
     /// <inheritdoc cref="Cli.Wrap" />
     public static Commander Wrap(string targetFilePath)
@@ -47,80 +47,96 @@ public class Commander : CommandBase<Commander>
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithTargetFile(string targetFilePath) => new(
-        targetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe);
+    public override Commander WithTargetFile(string targetFilePath) =>
+        new(
+            targetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithArguments(string arguments) => new(
-        TargetFilePath,
-        arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe);
+    public override Commander WithArguments(string arguments) =>
+        new(
+            TargetFilePath,
+            arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithWorkingDirectory(string workingDirPath) => new(
-        TargetFilePath,
-        Arguments,
-        workingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe);
+    public override Commander WithWorkingDirectory(string workingDirPath) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            workingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithCredentials(Credentials credentials) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        credentials,
-        EnvironmentVariables,
-        Validation,
-        StandardInputPipe);
+    public override Commander WithCredentials(Credentials credentials) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            credentials,
+            EnvironmentVariables,
+            Validation,
+            StandardInputPipe
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithEnvironmentVariables(IReadOnlyDictionary<string, string?> environmentVariables) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        environmentVariables,
-        Validation,
-        StandardInputPipe);
+    public override Commander WithEnvironmentVariables(
+        IReadOnlyDictionary<string, string?> environmentVariables
+    ) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            environmentVariables,
+            Validation,
+            StandardInputPipe
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithValidation(CommandResultValidation validation) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        validation,
-        StandardInputPipe);
+    public override Commander WithValidation(CommandResultValidation validation) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            validation,
+            StandardInputPipe
+        );
 
     /// <inheritdoc />
     [Pure]
-    public override Commander WithStandardInputPipe(PipeSource source) => new(
-        TargetFilePath,
-        Arguments,
-        WorkingDirPath,
-        Credentials,
-        EnvironmentVariables,
-        Validation,
-        source);
+    public override Commander WithStandardInputPipe(PipeSource source) =>
+        new(
+            TargetFilePath,
+            Arguments,
+            WorkingDirPath,
+            Credentials,
+            EnvironmentVariables,
+            Validation,
+            source
+        );
 
     /// <summary>
     /// Converts this Commander instance to a RawCli command.
@@ -138,7 +154,8 @@ public class Commander : CommandBase<Commander>
             StandardInputPipe,
             true,
             hideOutput,
-            hideOutput);
+            hideOutput
+        );
     }
 
     /// <summary>
@@ -156,7 +173,8 @@ public class Commander : CommandBase<Commander>
             Validation,
             StandardInputPipe,
             PipeTarget.Null,
-            PipeTarget.Null);
+            PipeTarget.Null
+        );
     }
 
     /// <inheritdoc />
