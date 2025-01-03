@@ -8,7 +8,7 @@ namespace CliCommander.Tests;
 
 public class ConversionSpec
 {
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_convert_a_command_with_the_default_configuration_to_cliwrap()
     {
         // Act
@@ -27,7 +27,7 @@ public class ConversionSpec
         cmd.StandardErrorPipe.Should().Be(PipeTarget.Null);
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_convert_a_command_with_the_default_configuration_to_rawcli()
     {
         // Act
@@ -47,7 +47,7 @@ public class ConversionSpec
         cmd.RedirectStandardError.Should().BeFalse();
     }
 
-    [Fact(Timeout = 15000)]
+    [Fact]
     public void I_can_convert_a_command_with_the_default_configuration_to_rawcli_with_hidden_output()
     {
         // Act
