@@ -32,6 +32,7 @@ class Build : NukeBuild
 
     [Parameter(Name = "MYGET_API_KEY")] [Secret] string MyGetApiKey { get; set; }
     [Parameter(Name = "NUGET_API_KEY")] [Secret] string NuGetApiKey { get; set; }
+    [Parameter(Name = "CODECOV_TOKEN")] [Secret] string CodecovToken { get; set; }
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -148,7 +149,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             Codecov(s => s
-                .SetFiles(CoverageResult));
+                .SetFiles(CoverageResult)
+                .SetToken(CodecovToken));
         });
 
     IEnumerable<Project> TestProjects => Solution.GetAllProjects("*.Tests");
