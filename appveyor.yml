@@ -9,21 +9,16 @@ for:
   -
     matrix:
       only:
-        - job_name: MacOS Tests
+        - os_type: Unix
     install:
       - sh: |
           wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
           chmod +x /tmp/dotnet-install.sh
-          /tmp/dotnet-install.sh -Version 9.0.101 -InstallDir /usr/share/dotnet
+          /tmp/dotnet-install.sh -Version 9.0.101
   -
     matrix:
       only:
         - job_name: Ubuntu Tests + Push
-    install:
-      - sh: |
-          wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
-          chmod +x /tmp/dotnet-install.sh
-          /tmp/dotnet-install.sh -Version 9.0.101 -InstallDir /usr/share/dotnet
     build_script:
       - cmd: .\build.cmd UploadCodecov PushNuGet PushMyGet
       - sh: ./build.cmd UploadCodecov PushNuGet PushMyGet
@@ -45,6 +40,8 @@ environment:
     - job_name: MacOS Tests
       job_group: Tests
       appveyor_build_worker_image: macos-sonoma
+      os_type: Unix
     - job_name: Ubuntu Tests + Push
       job_depends_on: Tests
       appveyor_build_worker_image: Ubuntu2204
+      os_type: Unix
