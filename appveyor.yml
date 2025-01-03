@@ -1,15 +1,12 @@
+build_script:
+  - cmd: .\build.cmd Test
+  - sh: ./build.cmd Test
+
 for:
   -
     matrix:
-      only:
-        - job_group: Tests
-    build_script:
-      - cmd: .\build.cmd Test
-      - sh: ./build.cmd Test
-  -
-    matrix:
-      only:
-        - os_type: Unix
+      except:
+        - job_name: Windows Tests
     install:
       - sh: |
           wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
@@ -36,12 +33,11 @@ environment:
   matrix:
     - job_name: Windows Tests
       job_group: Tests
-      appveyor_build_worker_image: Visual Studio 2022
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
     - job_name: MacOS Tests
       job_group: Tests
-      appveyor_build_worker_image: macos-sonoma
-      os_type: Unix
+      APPVEYOR_BUILD_WORKER_IMAGE: macos-sonoma
     - job_name: Ubuntu Tests + Push
       job_depends_on: Tests
-      appveyor_build_worker_image: Ubuntu2204
-      os_type: Unix
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+      DOTNET_ROOT: /home/appveyor/.dotnet
