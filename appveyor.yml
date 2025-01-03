@@ -9,7 +9,21 @@ for:
   -
     matrix:
       only:
+        - job_name: MacOS Tests
+    install:
+      - cmd: |
+          wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+          chmod +x /tmp/dotnet-install.sh
+          /tmp/dotnet-install.sh -Version 9.0.101 -InstallDir /usr/share/dotnet
+  -
+    matrix:
+      only:
         - job_name: Ubuntu Tests + Push
+    install:
+      - cmd: |
+          wget -q -O /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+          chmod +x /tmp/dotnet-install.sh
+          /tmp/dotnet-install.sh -Version 9.0.101 -InstallDir /usr/share/dotnet
     build_script:
       - cmd: .\build.cmd UploadCodecov PushNuGet PushMyGet
       - sh: ./build.cmd UploadCodecov PushNuGet PushMyGet
