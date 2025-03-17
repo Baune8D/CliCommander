@@ -40,12 +40,12 @@ public void Execute(bool shouldThrowOnExitCode)
 
 A fork of [CliWrap](https://github.com/Tyrrrz/CliWrap) that enables outputting native process output at the cost of output redirection.
 
-The point of `Rawcli` is to support the following use case: https://github.com/Tyrrrz/CliWrap/issues/199 without having to use the raw `Process` object.
+The point of `RawCli` is to support the following use case: https://github.com/Tyrrrz/CliWrap/issues/199 without having to use the raw `Process` object.
 
 ### Usage:
 
 ```csharp
-CommandResult result = Raw.CliWrap("docker")
+CommandResult result = Raw.Cli.Wrap("docker")
     .WithArguments(a => a
         .Add("build")
         .Add("--progress")
